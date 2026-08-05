@@ -1,10 +1,12 @@
-
 <!DOCTYPE html>
 <!-- saved from url=(0050)file:///C:/Users/Mathieub/Downloads/index(23).html -->
 <html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Offre collective MLPB — V1 ateliers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#eef2f5;
@@ -568,6 +570,212 @@
   }
 </style>
 
+<style id="v11-conseiller-polish">
+  /* ====== Fondations : mouvement, focus, icônes ====== */
+  :root{
+    --cs-surface:#ffffff;
+    --cs-surface-alt:#f6f8fa;
+    --cs-line:#e2e8ee;
+    --cs-line-strong:#cdd8e0;
+    --cs-ink:#1c2833;
+    --cs-muted:#5c6b78;
+    --cs-primary:#24313a;
+    --cs-accent:#2897d5;
+    --cs-danger:#c62839;
+    --cs-danger-soft:#fdecee;
+    --cs-success:#1f9d55;
+    --cs-success-soft:#e9f9ef;
+    --cs-warning:#b5760a;
+    --cs-warning-soft:#fff4e0;
+    --cs-radius:14px;
+    --cs-radius-sm:10px;
+    --cs-shadow-sm:0 2px 8px rgba(20,31,44,.06);
+    --cs-shadow-md:0 10px 26px rgba(20,31,44,.12);
+    --cs-ease:cubic-bezier(.2,.7,.2,1);
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+  .icon-svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;vertical-align:-3px}
+  .icon-svg.icon-svg-sm{width:13px;height:13px}
+  .icon-action-nav .icon-svg{transform:rotate(-90deg);}
+  .atelier-toggle .icon-svg,.summary-toggle .icon-svg{transition:transform .15s var(--cs-ease);}
+  .atelier-toggle.is-open .icon-svg{transform:rotate(180deg);}
+
+  /* ====== Boutons : hiérarchie claire et icônes ====== */
+  body.mode-conseiller .btn{display:inline-flex;align-items:center;gap:7px;font-weight:700;transition:transform .12s var(--cs-ease), box-shadow .12s var(--cs-ease), background-color .12s var(--cs-ease);}
+  body.mode-conseiller .btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:var(--cs-shadow-sm);}
+  body.mode-conseiller .btn:active:not(:disabled){transform:translateY(0);}
+  body.mode-conseiller .btn.subtle{background:rgba(255,255,255,.65);border-color:var(--cs-line-strong);color:var(--cs-ink);}
+  body.mode-conseiller .btn.danger-outline{background:#fff;color:var(--cs-danger);border-color:#e6b8bd;}
+  body.mode-conseiller .btn.danger-outline:hover{background:var(--cs-danger-soft);}
+  body.mode-conseiller .icon-action{display:inline-flex;align-items:center;justify-content:center;transition:transform .12s var(--cs-ease), background-color .12s var(--cs-ease), color .12s var(--cs-ease);}
+  body.mode-conseiller .icon-action:hover:not(:disabled){transform:scale(1.06);}
+  body.mode-conseiller .icon-action:active:not(:disabled){transform:scale(.96);}
+
+  /* ====== Surfaces de gestion : lisibilité premium côté conseiller ====== */
+  body.mode-conseiller .tile-body{background:var(--cs-surface-alt) !important;border-radius:16px;padding:14px 12px !important;}
+  body.mode-conseiller .subcategory{background:var(--cs-surface) !important;border:1px solid var(--cs-line) !important;color:var(--cs-ink) !important;border-radius:var(--cs-radius);box-shadow:var(--cs-shadow-sm);transition:box-shadow .15s var(--cs-ease), transform .15s var(--cs-ease);}
+  body.mode-conseiller .subcategory:hover{box-shadow:var(--cs-shadow-md);transform:translateY(-1px);}
+  body.mode-conseiller .subcategory-title{color:var(--cs-ink) !important;font-weight:800;}
+  body.mode-conseiller .subcategory .count{background:var(--cs-surface-alt) !important;border:1px solid var(--cs-line-strong);color:var(--cs-ink) !important;}
+  body.mode-conseiller .subcategory .icon-action{border-color:var(--cs-line-strong);color:var(--cs-ink);background:var(--cs-surface);}
+  body.mode-conseiller .category-workshops .atelier,
+  body.mode-conseiller .atelier{background:var(--cs-surface) !important;border:1px solid var(--cs-line) !important;color:var(--cs-ink) !important;box-shadow:var(--cs-shadow-sm);transition:box-shadow .15s var(--cs-ease);}
+  body.mode-conseiller .atelier:hover{box-shadow:var(--cs-shadow-md);}
+  body.mode-conseiller .atelier-title{color:var(--cs-ink) !important;}
+  body.mode-conseiller .atelier-toggle,body.mode-conseiller .summary-toggle{border-color:var(--cs-line-strong);color:var(--cs-ink);background:var(--cs-surface-alt);}
+  body.mode-conseiller .session-card,body.mode-conseiller .resource-wrap,body.mode-conseiller .field{background:var(--cs-surface) !important;border:1px solid var(--cs-line) !important;color:var(--cs-ink) !important;box-shadow:var(--cs-shadow-sm);}
+  body.mode-conseiller .field b{color:var(--cs-muted) !important;}
+  body.mode-conseiller .atelier-territories{background:var(--cs-surface-alt);border-color:var(--cs-line);}
+  body.mode-conseiller .atelier-territory{background:var(--cs-surface);border-color:var(--cs-line-strong);color:var(--cs-ink) !important;}
+  body.mode-conseiller .small-note,body.mode-conseiller .empty-note,body.mode-conseiller .management-hint{color:var(--cs-muted) !important;}
+  body.mode-conseiller .resource-row input,body.mode-conseiller .participant-row input,body.mode-conseiller .participant-row select,
+  body.mode-conseiller .session-form input,body.mode-conseiller .session-form textarea,body.mode-conseiller .field input,body.mode-conseiller .field textarea{
+    background:var(--cs-surface-alt);border-color:var(--cs-line-strong);
+  }
+  body.mode-conseiller .resource-row input:focus-visible,body.mode-conseiller .participant-row input:focus-visible,
+  body.mode-conseiller .session-form input:focus-visible,body.mode-conseiller .session-form textarea:focus-visible{
+    outline:2px solid var(--cs-accent);outline-offset:1px;background:#fff;
+  }
+
+  /* ====== Empty states : invitation claire à agir ====== */
+  body.mode-conseiller .empty-note{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--cs-surface-alt);border:1px dashed var(--cs-line-strong);border-radius:var(--cs-radius-sm);font-style:normal;}
+  body.mode-conseiller .empty-note::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--cs-accent);flex:0 0 auto;}
+
+  /* ====== Demand badge et compteurs ====== */
+  body.mode-conseiller .demand-badge{box-shadow:none;}
+
+  /* ====== Modales : ouverture plus douce, hiérarchie claire ====== */
+  .modal{transition:background-color .16s var(--cs-ease);}
+  .modal-box{transform:translateY(8px) scale(.985);opacity:0;transition:transform .18s var(--cs-ease), opacity .18s var(--cs-ease);}
+  .modal.open .modal-box{transform:translateY(0) scale(1);opacity:1;}
+  .modal .actions .btn.primary{box-shadow:var(--cs-shadow-sm);}
+  .modal label{display:flex;align-items:center;gap:6px;}
+  .field-help{display:block;font-size:11px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--cs-muted);margin:-2px 0 6px;}
+  .modal input:invalid,.modal-field-error input,.modal-field-error textarea{border-color:var(--cs-danger) !important;}
+  .field-error-msg{display:block;font-size:11px;font-weight:700;color:var(--cs-danger);margin-top:4px;}
+
+  /* ====== Confirmation de suppression, générique ====== */
+  .delete-confirmation{display:flex;gap:12px;align-items:flex-start;}
+  .delete-confirmation .dc-icon{flex:0 0 auto;width:38px;height:38px;border-radius:999px;background:var(--cs-danger-soft);color:var(--cs-danger);display:grid;place-items:center;}
+  .delete-confirmation .dc-body{flex:1;min-width:0;}
+
+  /* ====== Toasts ====== */
+  #toastStack{position:fixed;right:18px;bottom:18px;z-index:400;display:flex;flex-direction:column;gap:10px;max-width:min(360px,88vw);}
+  .toast{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;background:#1c2833;color:#fff;box-shadow:var(--cs-shadow-md);font-size:13px;font-weight:600;line-height:1.4;animation:toast-in .22s var(--cs-ease);}
+  .toast.leaving{animation:toast-out .18s var(--cs-ease) forwards;}
+  .toast .toast-icon{flex:0 0 auto;width:20px;height:20px;border-radius:999px;display:grid;place-items:center;background:rgba(255,255,255,.14);}
+  .toast.success .toast-icon{background:var(--cs-success);color:#fff;}
+  .toast.warning .toast-icon{background:var(--cs-warning);color:#fff;}
+  .toast.danger .toast-icon{background:var(--cs-danger);color:#fff;}
+  .toast .toast-close{margin-left:auto;background:none;border:0;color:rgba(255,255,255,.7);cursor:pointer;font-size:15px;line-height:1;padding:2px;}
+  .toast .toast-close:hover{color:#fff;}
+  @keyframes toast-in{from{opacity:0;transform:translateY(8px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+  @keyframes toast-out{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(6px);}}
+  @media(max-width:600px){#toastStack{left:12px;right:12px;bottom:12px;max-width:none;}}
+
+  /* ====== Repère de mode actif ====== */
+  body.mode-conseiller .app-header{border-bottom-color:var(--cs-accent) !important;}
+  body.mode-conseiller #modeConseillerBtn.active{background:var(--cs-accent) !important;border-color:var(--cs-accent) !important;}
+</style>
+
+<style id="v13-neobrutal-finish">
+  :root{
+    --nb-line:2px solid #171718;
+    --nb-line-soft:1.5px solid rgba(23,23,24,.7);
+    --nb-shadow-lg:5px 5px 0 #171718;
+    --nb-shadow-md:3px 3px 0 #171718;
+    --nb-shadow-sm:2px 2px 0 #171718;
+  }
+
+  /* ====== Typographie : Inter seul, très gras sur les titres ====== */
+  html,body{font-family:'Inter',Arial,Helvetica,sans-serif !important;}
+  .brand h1,.tile h2,.modal-head h3{
+    font-family:'Inter',Arial,sans-serif !important;font-weight:900 !important;letter-spacing:-.02em !important;
+  }
+  .segmented button{font-family:'Inter',Arial,sans-serif !important;font-weight:800 !important;}
+  .btn,.btn.mini{font-family:'Inter',Arial,sans-serif;font-weight:800 !important;}
+
+  /* ====== Fond chaleureux, fidèle à la référence ====== */
+  html,body{
+    background:
+      radial-gradient(circle at 8% 8%, rgba(243,146,0,.24), transparent 28%),
+      radial-gradient(circle at 88% 12%, rgba(40,151,213,.18), transparent 30%),
+      radial-gradient(circle at 15% 88%, rgba(149,193,31,.16), transparent 32%),
+      linear-gradient(135deg,#fffaf4 0%,#f7efe7 100%) !important;
+  }
+  .app-header{background:rgba(255,255,255,.9) !important;backdrop-filter:blur(14px);border-bottom:var(--nb-line) !important;}
+  .app-header::after{display:none;} /* remplacé par la bordure noire directe, plus fidèle à la référence */
+
+  /* ====== Signature : bordure noire + ombre dure sur les tuiles ====== */
+  .mindmap-grid{border-radius:28px !important;border:var(--nb-line);box-shadow:var(--nb-shadow-lg),0 22px 70px rgba(23,23,24,.14) !important;overflow:hidden;}
+  .tile{transition:transform .15s ease, box-shadow .15s ease !important;}
+  .tile:hover{transform:translate(-2px,-2px) !important;box-shadow:var(--nb-shadow-lg) !important;}
+  .icon::after{display:none;} /* décoration retirée : ne sert pas la nouvelle direction */
+
+  /* ====== Emoji de bloc et respiration ====== */
+  .tile{padding-top:30px !important;}
+  .tile-emoji{display:inline-block;font-size:20px;line-height:1;margin-right:6px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.12));}
+  .tile .intro{font-weight:500 !important;}
+
+  /* ====== Boutons : pilules à bordure noire et ombre dure ====== */
+  .btn,.btn.mini{border-radius:999px !important;}
+  .segmented,.segmented button{border-radius:999px !important;}
+  .atelier-territory{border-radius:999px !important;}
+  .btn{border:var(--nb-line) !important;box-shadow:var(--nb-shadow-md) !important;transition:transform .12s ease, box-shadow .12s ease !important;}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px) !important;box-shadow:4px 4px 0 #171718 !important;}
+  .btn:active:not(:disabled){transform:translate(0,0) !important;box-shadow:1px 1px 0 #171718 !important;}
+  .btn.mini{border:1.5px solid #171718 !important;box-shadow:var(--nb-shadow-sm) !important;}
+  .btn.primary{background:#171718 !important;color:#fff !important;}
+  .btn.inscription{border:var(--nb-line) !important;box-shadow:var(--nb-shadow-md) !important;}
+  .segmented{border:var(--nb-line) !important;box-shadow:var(--nb-shadow-md) !important;background:#fff !important;}
+  .segmented button.active{background:#171718 !important;color:#fff !important;}
+  body.mode-conseiller #modeConseillerBtn.active{background:#171718 !important;border-color:#171718 !important;}
+
+  /* ====== Pastilles de territoire et compteurs ====== */
+  .atelier-territory{border:1.5px solid rgba(23,23,24,.28) !important;}
+  .atelier-territory:hover{box-shadow:var(--nb-shadow-sm);}
+  .tile-count,.count{border:1.5px solid rgba(23,23,24,.18) !important;}
+
+  /* ====== Icônes d'action : bordure noire fine, franche ====== */
+  .icon-action{border:1.5px solid rgba(23,23,24,.3) !important;}
+  .icon-action:hover:not(:disabled){box-shadow:var(--nb-shadow-sm);}
+  .icon-action.danger{border-color:rgba(198,40,57,.55) !important;}
+
+  /* ====== Cartes de gestion conseiller : le composant-signature ====== */
+  body.mode-conseiller .subcategory,
+  body.mode-conseiller .atelier,
+  body.mode-conseiller .session-card,
+  body.mode-conseiller .resource-wrap,
+  body.mode-conseiller .field{
+    border:1.5px solid rgba(23,23,24,.16) !important;
+    box-shadow:0 8px 22px rgba(23,23,24,.06) !important;
+    transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease !important;
+  }
+  body.mode-conseiller .subcategory:hover,
+  body.mode-conseiller .atelier:hover{
+    border-color:#171718 !important;
+    box-shadow:var(--nb-shadow-md) !important;
+    transform:translate(-2px,-2px) !important;
+  }
+  body.mode-conseiller input:focus-visible,body.mode-conseiller select:focus-visible,body.mode-conseiller textarea:focus-visible{
+    outline:2px solid #171718 !important;outline-offset:1px;
+  }
+
+  /* ====== Modales : bordure noire, ombre dure ====== */
+  .modal-box{border:var(--nb-line) !important;box-shadow:8px 8px 0 #171718 !important;border-radius:24px !important;}
+  .modal-head::before{display:none;}
+  .modal-head{border-bottom:var(--nb-line) !important;}
+  .delete-confirmation{border:1.5px solid rgba(198,40,57,.3) !important;}
+
+  /* ====== Toasts assortis ====== */
+  .toast{border:1.5px solid rgba(255,255,255,.14);box-shadow:var(--nb-shadow-md);}
+
+  @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;}}
+</style>
+
+
 </head>
 <body class="mode-conseiller">
   <header class="app-header">
@@ -798,6 +1006,8 @@
 
   <input id="importFile" class="file-input" type="file" accept=".json" onchange="importData(event)">
 
+  <div id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
   <div id="modal" class="modal" onclick="if(event.target.id===&#39;modal&#39;) closeModal()">
     <div class="modal-box">
       <div class="modal-head">
@@ -958,89 +1168,97 @@ const defaultData = {
   blocks: [
     {
       id:'emploi', color:'blue', title:'JE VEUX TROUVER UN EMPLOI',
+      titreJeune:'JE VEUX TROUVER UN EMPLOI', titreConseiller:'EMPLOI — Candidature et mise en relation',
       icon:'briefcase',
       introJeune:'Me préparer, rencontrer des employeurs et découvrir des opportunités.',
       introConseiller:'Offre consolidée emploi : préparation à la rencontre, découverte des secteurs et rencontres employeurs.',
       ateliers:[
-        {title:'Me préparer à rencontrer un employeur', objectif:'Préparer ma candidature et savoir présenter mon parcours face à un employeur.', public:'Jeunes préparant une candidature, un entretien, un forum ou un job dating.', contenu:['Parcours CV','TRE : CV et lettre de motivation avec l’IA','Méthodes d’organisation et ciblage d’entreprises','S’orienter vers les outils de France Travail','Préparer les entretiens d’embauche – Impuls’Emploi','Capsules Pro : conseils de jeunes et de salariés'], sessions:[]},
-        {title:'Rencontrer des employeurs', objectif:'Découvrir des entreprises, des métiers et accéder à des opportunités concrètes.', public:'Jeunes souhaitant élargir leur réseau, découvrir un secteur ou trouver une immersion.', contenu:['Kafé Emploi Immersion','BETIJOBS et rencontres emploi','Forum et Repas Immersion','Visites d’entreprises','Informations collectives entreprises, CFA, intérim et métiers de la propreté'], sessions:[]}
+        {title:'Me préparer à rencontrer un employeur', titreJeune:'Préparer ma candidature', titreConseiller:'Préparation candidature (CV, entretien, ciblage)', objectif:'Préparer ma candidature et savoir présenter mon parcours face à un employeur.', public:'Jeunes préparant une candidature, un entretien, un forum ou un job dating.', contenu:['Parcours CV','TRE : CV et lettre de motivation avec l’IA','Méthodes d’organisation et ciblage d’entreprises','S’orienter vers les outils de France Travail','Préparer les entretiens d’embauche – Impuls’Emploi','Capsules Pro : conseils de jeunes et de salariés'], sessions:[]},
+        {title:'Rencontrer des employeurs', titreJeune:'Rencontrer des employeurs', titreConseiller:'Mise en relation employeurs (forums, immersions, visites)', objectif:'Découvrir des entreprises, des métiers et accéder à des opportunités concrètes.', public:'Jeunes souhaitant élargir leur réseau, découvrir un secteur ou trouver une immersion.', contenu:['Kafé Emploi Immersion','BETIJOBS et rencontres emploi','Forum et Repas Immersion','Visites d’entreprises','Informations collectives entreprises, CFA, intérim et métiers de la propreté'], sessions:[]}
       ]
     },
     {
       id:'projet', color:'pink', title:'JE VEUX CONSTRUIRE MON PROJET',
+      titreJeune:'JE VEUX CONSTRUIRE MON PROJET', titreConseiller:'PROJET PROFESSIONNEL — Connaissance de soi et construction',
       icon:'compass',
       introJeune:'Mieux me connaître, découvrir des métiers et avancer étape par étape.',
       introConseiller:'Offre consolidée projet : connaissance de soi, construction du projet et confrontation aux métiers.',
       ateliers:[
-        {title:'Mieux me connaître et identifier mes atouts', objectif:'Repérer mes compétences, mes centres d’intérêt et mes ressources personnelles.', public:'Jeunes sans projet défini, en questionnement ou souhaitant mieux valoriser leurs expériences.', contenu:['Me connaître et agir','Les Compétences fortes – Impuls’CEJ','DEFIS et ressources intérieures – contenu à confirmer','DECLIC 4 – Se situer avec CléA'], sessions:[]},
-        {title:'Construire mon projet professionnel', objectif:'Choisir une piste et construire un plan d’action réaliste.', public:'Jeunes hésitant entre plusieurs pistes ou ayant besoin de structurer leur projet.', contenu:['Les étapes de mon projet professionnel – ERIP','Boost ton avenir – ADVP','Avenir Pro – format à préciser','DECLIC 2 – Projet, atouts et opportunités du territoire','Bidea Argitu – contenu à préciser'], sessions:[]},
-        {title:'Découvrir des métiers et préparer une immersion', objectif:'Confronter mes idées à la réalité et tester un environnement professionnel.', public:'Jeunes ayant besoin de découvrir un métier, un secteur ou un lieu de travail.', contenu:['Rencontre métiers verts et métiers de demain','Convention PMSMP et recherche de stage','DECLIC 1 – Essayer son métier de demain','Découverte des métiers de l’audiovisuel et du cinéma','Handicap et visite d’ESAT','Escape Game – contenu à préciser'], sessions:[]}
+        {title:'Mieux me connaître et identifier mes atouts', titreJeune:'Mieux me connaître', titreConseiller:'Connaissance de soi et repérage des atouts', objectif:'Repérer mes compétences, mes centres d’intérêt et mes ressources personnelles.', public:'Jeunes sans projet défini, en questionnement ou souhaitant mieux valoriser leurs expériences.', contenu:['Me connaître et agir','Les Compétences fortes – Impuls’CEJ','DEFIS et ressources intérieures – contenu à confirmer','DECLIC 4 – Se situer avec CléA'], sessions:[]},
+        {title:'Construire mon projet professionnel', titreJeune:'Construire mon projet', titreConseiller:'Construction du projet professionnel', objectif:'Choisir une piste et construire un plan d’action réaliste.', public:'Jeunes hésitant entre plusieurs pistes ou ayant besoin de structurer leur projet.', contenu:['Les étapes de mon projet professionnel – ERIP','Boost ton avenir – ADVP','Avenir Pro – format à préciser','DECLIC 2 – Projet, atouts et opportunités du territoire','Bidea Argitu – contenu à préciser'], sessions:[]},
+        {title:'Découvrir des métiers et préparer une immersion', titreJeune:'Découvrir des métiers', titreConseiller:'Découverte métiers et immersion (PMSMP)', objectif:'Confronter mes idées à la réalité et tester un environnement professionnel.', public:'Jeunes ayant besoin de découvrir un métier, un secteur ou un lieu de travail.', contenu:['Rencontre métiers verts et métiers de demain','Convention PMSMP et recherche de stage','DECLIC 1 – Essayer son métier de demain','Découverte des métiers de l’audiovisuel et du cinéma','Handicap et visite d’ESAT','Escape Game – contenu à préciser'], sessions:[]}
       ]
     },
     {
       id:'formation', color:'gold', title:'JE VEUX TROUVER UNE FORMATION',
+      titreJeune:'JE VEUX TROUVER UNE FORMATION', titreConseiller:'FORMATION — Choix, candidature et entrée',
       icon:'certificate',
       introJeune:'Choisir une formation, préparer mon entrée et découvrir les organismes.',
       introConseiller:'Offre consolidée formation : choix, candidature, rencontres CFA et sécurisation de l’entrée.',
       ateliers:[
-        {title:'Choisir ma formation', objectif:'Me poser les bonnes questions et trouver une formation adaptée à mon projet.', public:'Jeunes qui envisagent une formation ou hésitent entre plusieurs possibilités.', contenu:['En route vers ma formation','Parcours Sup – public et contenu à préciser','Rechercher et comparer des formations','Identifier les financements et conditions d’accès'], sessions:[]},
-        {title:'Préparer mon entrée en formation', objectif:'Préparer ma candidature et anticiper les conditions de réussite.', public:'Jeunes ayant identifié une formation ou une entrée prochaine.', contenu:['Préparer le dossier, les tests et l’entretien','Anticiper budget, logement et déplacements','Zoom PTP, VAE et usure professionnelle – offre spécialisée'], sessions:[]},
-        {title:'Rencontrer un CFA ou un organisme de formation', objectif:'Découvrir concrètement une formation et faciliter la première prise de contact.', public:'Jeunes souhaitant visiter un établissement ou rencontrer une équipe de formation.', contenu:['Informations collectives entreprises et CFA','Réunion métiers de la propreté avec l’INHNI','Rencontres de jeunes vulnérables dans les CFA','Visites, portes ouvertes et rencontres avec les professionnels'], sessions:[]}
+        {title:'Choisir ma formation', titreJeune:'Choisir ma formation', titreConseiller:'Choix et recherche de formation', objectif:'Me poser les bonnes questions et trouver une formation adaptée à mon projet.', public:'Jeunes qui envisagent une formation ou hésitent entre plusieurs possibilités.', contenu:['En route vers ma formation','Parcours Sup – public et contenu à préciser','Rechercher et comparer des formations','Identifier les financements et conditions d’accès'], sessions:[]},
+        {title:'Préparer mon entrée en formation', titreJeune:'Préparer mon entrée', titreConseiller:'Préparation à l’entrée (dossier, tests, financement)', objectif:'Préparer ma candidature et anticiper les conditions de réussite.', public:'Jeunes ayant identifié une formation ou une entrée prochaine.', contenu:['Préparer le dossier, les tests et l’entretien','Anticiper budget, logement et déplacements','Zoom PTP, VAE et usure professionnelle – offre spécialisée'], sessions:[]},
+        {title:'Rencontrer un CFA ou un organisme de formation', titreJeune:'Rencontrer un CFA', titreConseiller:'Rencontre CFA / organismes de formation', objectif:'Découvrir concrètement une formation et faciliter la première prise de contact.', public:'Jeunes souhaitant visiter un établissement ou rencontrer une équipe de formation.', contenu:['Informations collectives entreprises et CFA','Réunion métiers de la propreté avec l’INHNI','Rencontres de jeunes vulnérables dans les CFA','Visites, portes ouvertes et rencontres avec les professionnels'], sessions:[]}
       ]
     },
     {
       id:'mobilite', color:'coral', title:'JE VEUX BOUGER PLUS FACILEMENT',
+      titreJeune:'JE VEUX BOUGER PLUS FACILEMENT', titreConseiller:'MOBILITÉ — Déplacements, code et international',
       icon:'bus',
       introJeune:'Organiser mes déplacements, préparer le code ou construire un projet à l’étranger.',
       introConseiller:'Offre consolidée mobilité : solutions de déplacement, autonomie et mobilité internationale.',
       ateliers:[
-        {title:'Organiser mes déplacements', objectif:'Faire le point sur mes besoins et trouver des solutions adaptées à mes trajets.', public:'Jeunes rencontrant des difficultés pour rejoindre un emploi, une formation ou un rendez-vous.', contenu:['Mobilité locale'], sessions:[]},
-        {title:'Préparer le code et gagner en autonomie', objectif:'Progresser vers le code de la route et devenir plus autonome dans mes déplacements.', public:'Jeunes ayant besoin d’un cadre d’apprentissage ou d’un appui renforcé.', contenu:['DECLIC 6 – Code de la route','Mentorat Code de la route','Organisation et sécurisation de mes déplacements'], sessions:[]},
-        {title:'Partir à l’étranger', objectif:'Découvrir les possibilités de mobilité internationale et préparer un départ.', public:'Jeunes intéressés par une expérience à l’étranger.', contenu:[], sessions:[]}
+        {title:'Organiser mes déplacements', titreJeune:'Organiser mes déplacements', titreConseiller:'Diagnostic et solutions de déplacement', objectif:'Faire le point sur mes besoins et trouver des solutions adaptées à mes trajets.', public:'Jeunes rencontrant des difficultés pour rejoindre un emploi, une formation ou un rendez-vous.', contenu:['Mobilité locale'], sessions:[]},
+        {title:'Préparer le code et gagner en autonomie', titreJeune:'Préparer le code', titreConseiller:'Code de la route et autonomie (DECLIC 6)', objectif:'Progresser vers le code de la route et devenir plus autonome dans mes déplacements.', public:'Jeunes ayant besoin d’un cadre d’apprentissage ou d’un appui renforcé.', contenu:['DECLIC 6 – Code de la route','Mentorat Code de la route','Organisation et sécurisation de mes déplacements'], sessions:[]},
+        {title:'Partir à l’étranger', titreJeune:'Partir à l’étranger', titreConseiller:'Mobilité internationale', objectif:'Découvrir les possibilités de mobilité internationale et préparer un départ.', public:'Jeunes intéressés par une expérience à l’étranger.', contenu:[], sessions:[]}
       ]
     },
     {
       id:'demarches', color:'teal', title:'JE VEUX ÊTRE AIDÉ DANS MES DÉMARCHES',
+      titreJeune:'JE VEUX ÊTRE AIDÉ DANS MES DÉMARCHES', titreConseiller:'DÉMARCHES — Droits, logement, budget, savoirs de base',
       icon:'clipboard',
       introJeune:'Comprendre mes droits, gérer mes dossiers et devenir plus autonome au quotidien.',
       introConseiller:'Offre consolidée démarches : CEJ, droits, logement, budget, compétences de base et numérique.',
       ateliers:[
-        {title:'Comprendre mes droits et gérer mes démarches', objectif:'M’organiser, remplir mes dossiers et utiliser les services utiles.', public:'Jeunes ayant besoin d’aide pour leurs démarches administratives ou leur parcours CEJ.', contenu:['Mon premier CEJ','Mon Appli CEJ','Atelier accès aux droits et accompagnements spécifiques','S’orienter vers les outils de France Travail'], sessions:[]},
-        {title:'Être aidé pour le logement et le budget', objectif:'Connaître les aides, anticiper mes dépenses et avancer vers une solution de logement.', public:'Jeunes ayant des questions ou des difficultés liées au logement ou au budget.', contenu:['Atelier Logement','Je gère mon budget','Connaître les aides et préparer mes dossiers'], sessions:[]},
-        {title:'Renforcer mes compétences de base et numériques', objectif:'Être plus autonome pour lire, écrire, communiquer et utiliser les outils numériques.', public:'Jeunes ayant besoin d’un appui en français, savoirs de base ou numérique.', contenu:['Être aidé pour lire, écrire et comprendre – ancien intitulé Illettrisme','EVA – évaluation des compétences de base','PIX Emploi','DECLIC 5 – Outils numériques du futur métier','Mentorat FLE et savoirs de base','La Fibre 64 – contenu à préciser'], sessions:[]}
+        {title:'Comprendre mes droits et gérer mes démarches', titreJeune:'Gérer mes démarches', titreConseiller:'Droits et démarches administratives (CEJ)', objectif:'M’organiser, remplir mes dossiers et utiliser les services utiles.', public:'Jeunes ayant besoin d’aide pour leurs démarches administratives ou leur parcours CEJ.', contenu:['Mon premier CEJ','Mon Appli CEJ','Atelier accès aux droits et accompagnements spécifiques','S’orienter vers les outils de France Travail'], sessions:[]},
+        {title:'Être aidé pour le logement et le budget', titreJeune:'Logement et budget', titreConseiller:'Logement et gestion budgétaire', objectif:'Connaître les aides, anticiper mes dépenses et avancer vers une solution de logement.', public:'Jeunes ayant des questions ou des difficultés liées au logement ou au budget.', contenu:['Atelier Logement','Je gère mon budget','Connaître les aides et préparer mes dossiers'], sessions:[]},
+        {title:'Renforcer mes compétences de base et numériques', titreJeune:'Renforcer mes compétences', titreConseiller:'Savoirs de base et numérique (FLE, PIX, DECLIC 5)', objectif:'Être plus autonome pour lire, écrire, communiquer et utiliser les outils numériques.', public:'Jeunes ayant besoin d’un appui en français, savoirs de base ou numérique.', contenu:['Être aidé pour lire, écrire et comprendre – ancien intitulé Illettrisme','EVA – évaluation des compétences de base','PIX Emploi','DECLIC 5 – Outils numériques du futur métier','Mentorat FLE et savoirs de base','La Fibre 64 – contenu à préciser'], sessions:[]}
       ]
     },
     {
       id:'confiance', color:'lime', title:'JE VEUX PRENDRE SOIN DE MOI',
+      titreJeune:'JE VEUX PRENDRE SOIN DE MOI', titreConseiller:'SANTÉ ET CONFIANCE — Bien-être, émotions, prévention',
       icon:'spark',
       introJeune:'Prendre soin de ma santé, me sentir mieux et développer ma confiance.',
       introConseiller:'Offre consolidée santé et bien-être : prévention, activité physique, confiance et santé-emploi.',
       ateliers:[
-        {title:'Prendre soin de ma santé et de mon bien-être', objectif:'Mieux connaître les ressources de santé et expérimenter des activités favorables au bien-être.', public:'Tous les jeunes, notamment ceux ayant besoin de reprendre soin d’eux ou de créer du lien.', contenu:['Activités physiques MUGITU','Santé, prévention et promotion de la santé – CPAM, ML et UFOLEP','Atelier cuisine','Les petits déjeuners du CEJ','Pause nature – contenu à préciser'], sessions:[]},
-        {title:'Développer ma confiance et gérer mes émotions', objectif:'Identifier mes qualités, mieux comprendre mes émotions et retrouver une capacité d’action.', public:'Jeunes en perte de confiance, confrontés au stress ou ayant besoin de valoriser leurs expériences.', contenu:['Confiance en soi – Impuls’Emploi','DECLIC 3 – Mobiliser ses capacités','Life Skills for Youth','Paroles de filles','Premiers secours en santé mentale – public à préciser'], sessions:[]},
-        {title:'Prévenir les risques et adapter mon projet à ma santé', objectif:'Comprendre les liens entre santé, vie quotidienne et projet professionnel.', public:'Jeunes ayant une question de santé, de handicap, d’addiction ou d’adaptation du projet.', contenu:['Santé–emploi : quelles possibilités ?','Purple Town – prévention des addictions','Bilan de santé et activité physique','Orientation vers les ressources spécialisées'], sessions:[]}
+        {title:'Prendre soin de ma santé et de mon bien-être', titreJeune:'Prendre soin de moi', titreConseiller:'Santé et bien-être (prévention, activité physique)', objectif:'Mieux connaître les ressources de santé et expérimenter des activités favorables au bien-être.', public:'Tous les jeunes, notamment ceux ayant besoin de reprendre soin d’eux ou de créer du lien.', contenu:['Activités physiques MUGITU','Santé, prévention et promotion de la santé – CPAM, ML et UFOLEP','Atelier cuisine','Les petits déjeuners du CEJ','Pause nature – contenu à préciser'], sessions:[]},
+        {title:'Développer ma confiance et gérer mes émotions', titreJeune:'Développer ma confiance', titreConseiller:'Confiance en soi et gestion des émotions', objectif:'Identifier mes qualités, mieux comprendre mes émotions et retrouver une capacité d’action.', public:'Jeunes en perte de confiance, confrontés au stress ou ayant besoin de valoriser leurs expériences.', contenu:['Confiance en soi – Impuls’Emploi','DECLIC 3 – Mobiliser ses capacités','LS4YOU – Développer ma confiance en moi','LS4YOU – Savoir dire non','LS4YOU – Gérer mon stress et mes émotions','Paroles de filles','Premiers secours en santé mentale – public à préciser'], sessions:[]},
+        {title:'Prévenir les risques et adapter mon projet à ma santé', titreJeune:'Adapter mon projet à ma santé', titreConseiller:'Prévention des risques et adaptation du projet (santé, handicap, addictions)', objectif:'Comprendre les liens entre santé, vie quotidienne et projet professionnel.', public:'Jeunes ayant une question de santé, de handicap, d’addiction ou d’adaptation du projet.', contenu:['Santé–emploi : quelles possibilités ?','Purple Town – prévention des addictions','Bilan de santé et activité physique','Orientation vers les ressources spécialisées'], sessions:[]}
       ]
     },
     {
       id:'engagement', color:'aqua', title:'JE VEUX M’ENGAGER',
+      titreJeune:'JE VEUX M’ENGAGER', titreConseiller:'ENGAGEMENT — Bénévolat, citoyenneté, environnement',
       icon:'hand',
       introJeune:'Participer à un projet, devenir bénévole et agir sur mon territoire.',
       introConseiller:'Offre consolidée engagement : bénévolat, citoyenneté, culture, transition écologique et projets collectifs.',
       ateliers:[
-        {title:'Découvrir le bénévolat et trouver une mission', objectif:'Identifier une forme d’engagement adaptée à mes envies et à mes disponibilités.', public:'Jeunes souhaitant découvrir le bénévolat ou s’engager ponctuellement.', contenu:['Bénévolat – mise en relation avec des associations','Devenez bénévoles signaleurs','Plateforme HEROOES – finalité à préciser','Découvrir le service civique et les projets locaux'], sessions:[]},
-        {title:'Participer à un projet collectif ou citoyen', objectif:'Prendre une place active dans un projet et contribuer aux décisions.', public:'Jeunes intéressés par la citoyenneté, la culture ou les projets de territoire.', contenu:['Cité éducative – projets QPV','Atelier culture','Les rendez-vous du 7 bis – contenu à préciser','Bilan participatif du collectif Impuls’CEJ'], sessions:[]},
-        {title:'Agir pour l’environnement et valoriser mon engagement', objectif:'Participer à une action utile et reconnaître les compétences développées.', public:'Jeunes souhaitant agir pour la transition écologique ou valoriser une expérience collective.', contenu:['Transition écologique','Actions nature et environnement','Identifier les compétences développées','Valoriser l’engagement dans un CV, un entretien ou un projet'], sessions:[]}
+        {title:'Découvrir le bénévolat et trouver une mission', titreJeune:'Devenir bénévole', titreConseiller:'Bénévolat et missions (service civique)', objectif:'Identifier une forme d’engagement adaptée à mes envies et à mes disponibilités.', public:'Jeunes souhaitant découvrir le bénévolat ou s’engager ponctuellement.', contenu:['Bénévolat – mise en relation avec des associations','Devenez bénévoles signaleurs','Plateforme HEROOES – finalité à préciser','Découvrir le service civique et les projets locaux'], sessions:[]},
+        {title:'Participer à un projet collectif ou citoyen', titreJeune:'Participer à un projet citoyen', titreConseiller:'Projets collectifs et citoyens (QPV, culture)', objectif:'Prendre une place active dans un projet et contribuer aux décisions.', public:'Jeunes intéressés par la citoyenneté, la culture ou les projets de territoire.', contenu:['Cité éducative – projets QPV','Atelier culture','Les rendez-vous du 7 bis – contenu à préciser','Bilan participatif du collectif Impuls’CEJ'], sessions:[]},
+        {title:'Agir pour l’environnement et valoriser mon engagement', titreJeune:'Agir pour l’environnement', titreConseiller:'Transition écologique et valorisation de l’engagement', objectif:'Participer à une action utile et reconnaître les compétences développées.', public:'Jeunes souhaitant agir pour la transition écologique ou valoriser une expérience collective.', contenu:['Transition écologique','Actions nature et environnement','Identifier les compétences développées','Valoriser l’engagement dans un CV, un entretien ou un projet'], sessions:[]}
       ]
     },
     {
       id:'offre-externe', color:'grey', title:'OFFRE EXTERNE',
+      titreJeune:'JE VEUX DÉCOUVRIR D’AUTRES RESSOURCES', titreConseiller:'OFFRE EXTERNE — Ateliers partenaires (DECLIC…)',
       icon:'network',
       introJeune:'Découvrir les ateliers proposés avec nos partenaires.',
       introConseiller:'Vue transversale des interventions portées ou coanimées par des partenaires. Chaque offre reste également reliée au besoin principal du jeune.',
       ateliers:[
-        {title:'Découvrir un métier et construire mon projet', objectif:'Accéder aux ateliers extérieurs de découverte des métiers et de construction du projet.', public:'Jeunes ayant besoin d’explorer, de tester ou de consolider une piste professionnelle.', contenu:['DECLIC 1 – Découvrir et essayer son métier de demain','DECLIC 2 – Construire son projet à partir de ses atouts','DECLIC 4 – Découvrir les compétences attendues avec CléA','Découverte des métiers de l’audiovisuel et du cinéma'], sessions:[]},
-        {title:'Renforcer ma confiance et préparer mon entretien', objectif:'Mobiliser mes capacités et mieux me présenter dans une situation professionnelle.', public:'Jeunes souhaitant gagner en confiance ou préparer un entretien.', contenu:['DECLIC 3 – Mieux mobiliser ses capacités','DECLIC 7 – Pitch vitaminé','Confiance en soi','Paroles de filles'], sessions:[]},
-        {title:'Développer mon autonomie', objectif:'Renforcer mes compétences numériques, mes savoirs de base ou ma mobilité.', public:'Jeunes ayant besoin d’un appui spécialisé pour gagner en autonomie.', contenu:['DECLIC 5 – Outils numériques du futur métier','DECLIC 6 – Code de la route','Mentorat FLE, savoirs de base et code de la route','Purple Town – prévention des addictions','La Fibre 64 et HEROOES – contenus à préciser'], sessions:[]}
+        {title:'Découvrir un métier et construire mon projet', titreJeune:'Découvrir un métier', titreConseiller:'Découverte métier et projet (DECLIC 1, 2, 4)', objectif:'Accéder aux ateliers extérieurs de découverte des métiers et de construction du projet.', public:'Jeunes ayant besoin d’explorer, de tester ou de consolider une piste professionnelle.', contenu:['DECLIC 1 – Découvrir et essayer son métier de demain','DECLIC 2 – Construire son projet à partir de ses atouts','DECLIC 4 – Découvrir les compétences attendues avec CléA','Découverte des métiers de l’audiovisuel et du cinéma'], sessions:[]},
+        {title:'Renforcer ma confiance et préparer mon entretien', titreJeune:'Préparer mon entretien', titreConseiller:'Confiance et entretien (DECLIC 3, 7)', objectif:'Mobiliser mes capacités et mieux me présenter dans une situation professionnelle.', public:'Jeunes souhaitant gagner en confiance ou préparer un entretien.', contenu:['DECLIC 3 – Mieux mobiliser ses capacités','DECLIC 7 – Pitch vitaminé','Confiance en soi','Paroles de filles'], sessions:[]},
+        {title:'Développer mon autonomie', titreJeune:'Développer mon autonomie', titreConseiller:'Autonomie numérique, mobilité et savoirs de base (DECLIC 5, 6)', objectif:'Renforcer mes compétences numériques, mes savoirs de base ou ma mobilité.', public:'Jeunes ayant besoin d’un appui spécialisé pour gagner en autonomie.', contenu:['DECLIC 5 – Outils numériques du futur métier','DECLIC 6 – Code de la route','Mentorat FLE, savoirs de base et code de la route','Purple Town – prévention des addictions','La Fibre 64 et HEROOES – contenus à préciser'], sessions:[]}
       ]
     }
   ]
@@ -1049,7 +1267,7 @@ const defaultData = {
 const CLASSIFIED_WORKSHOPS = {
   emploi: {
     'Me préparer à rencontrer un employeur': [
-      'Méthodes d’organisation et ciblage d’entreprises','Parcours CV','TRE CV et lettre de motivation avec l’IA','S’orienter vers les outils de France Travail','Préparer les entretiens d’embauche','Capsules Pro'
+      'Méthodes d’organisation et ciblage d’entreprises','Parcours CV','TRE CV et lettre de motivation avec l’IA','S’orienter vers les outils de France Travail','Préparer les entretiens d’embauche','Capsules Pro','LS4YOU – Prendre la parole en public'
     ],
     'Rencontrer des employeurs': [
       'Information collective entreprises/CFA','Visites d’entreprises','BETIJOBS / Rencontres emploi','Information collective intérim','Réunion sur les métiers de la propreté – INHNI','Forum Immersion','Repas Immersion','Kafé Emploi Immersion','Rencontre avec des jeunes vulnérables dans les CFA'
@@ -1057,10 +1275,10 @@ const CLASSIFIED_WORKSHOPS = {
   },
   projet: {
     'Mieux me connaître et identifier mes atouts': [
-      'Me connaître et agir','DEFIS et ressources intérieures','Les Compétences fortes'
+      'Me connaître et agir','DEFIS et ressources intérieures','Les Compétences fortes','LS4YOU – Valoriser mes expériences de vie'
     ],
     'Construire mon projet professionnel': [
-      'Avenir Pro','Les étapes de mon projet professionnel','Boost ton avenir – ADVP','Bidea Argitu'
+      'Avenir Pro','Les étapes de mon projet professionnel','Boost ton avenir – ADVP','Bidea Argitu','LS4YOU – Apprendre à faire les bons choix'
     ],
     'Découvrir des métiers et préparer une immersion': [
       'Rencontre métiers verts et métiers de demain','Escape Game','Convention PMSMP et recherche de stage','Handicap et visite d’ESAT'
@@ -1084,13 +1302,13 @@ const CLASSIFIED_WORKSHOPS = {
   },
   demarches: {
     'Comprendre mes droits et gérer mes démarches': [
-      'Mon premier CEJ','Mon Appli CEJ','Atelier accès aux droits et accompagnements spécifiques'
+      'Mon premier CEJ','Mon Appli CEJ','Atelier accès aux droits et accompagnements spécifiques','LS4YOU – Apprendre à m’organiser et gérer mes démarches','LS4YOU – Apprendre à demander de l’aide'
     ],
     'Être aidé pour le logement et le budget': [
       'Logement – Impuls’Emploi','Logement','Je gère mon budget'
     ],
     'Renforcer mes compétences de base et numériques': [
-      'Illettrisme','PIX Emploi','EVA','La Fibre 64','Mentorat – FLE et savoirs de base'
+      'Illettrisme','PIX Emploi','EVA','La Fibre 64','Mentorat – FLE et savoirs de base','LS4YOU – Développer mon esprit critique'
     ]
   },
   confiance: {
@@ -1098,7 +1316,7 @@ const CLASSIFIED_WORKSHOPS = {
       'Atelier cuisine','Activités physiques MUGITU','Santé, prévention et promotion de la santé','Les petits déjeuners du CEJ','Pause nature'
     ],
     'Développer ma confiance et gérer mes émotions': [
-      'Paroles de filles','DECLIC 3 – Confiance et capacités','Confiance en soi','Life Skills for Youth','DEFIS et ressources intérieures'
+      'Paroles de filles','DECLIC 3 – Confiance et capacités','Confiance en soi','DEFIS et ressources intérieures','LS4YOU – Développer ma confiance en moi','LS4YOU – Savoir dire non','LS4YOU – Gérer mon stress et mes émotions'
     ],
     'Prévenir les risques et adapter mon projet à ma santé': [
       'Santé–emploi : quelles possibilités ?','Purple Town','Premiers secours en santé mentale'
@@ -1109,7 +1327,7 @@ const CLASSIFIED_WORKSHOPS = {
       'Plateforme HEROOES','Bénévolat','Devenez bénévoles signaleurs'
     ],
     'Participer à un projet collectif ou citoyen': [
-      'Cité éducative – projets QPV','Bilan du collectif Impuls’CEJ','Les rendez-vous du 7 bis','Atelier culture'
+      'Cité éducative – projets QPV','Bilan du collectif Impuls’CEJ','Les rendez-vous du 7 bis','Atelier culture','LS4YOU – Coopérer et travailler avec les autres'
     ],
     'Agir pour l’environnement et valoriser mon engagement': [
       'Transition écologique','Pause nature'
@@ -1124,6 +1342,8 @@ defaultData.blocks = defaultData.blocks.map(block => {
     const names = mapping[category.title] || category.contenu || [];
     return {
       title: category.title,
+      titreJeune: category.titreJeune || category.title,
+      titreConseiller: category.titreConseiller || category.title,
       objectif: category.objectif || '',
       ateliers: names.map(title => ({title, objectif:'', contenu:[], territories:[...ALL_TERRITORIES], sessions:[]}))
     };
@@ -1168,11 +1388,15 @@ function normalizeMobilityCategories(data){
   }));
   const merged={
     title:'Organiser mes déplacements',
+    titreJeune:'Organiser mes déplacements',
+    titreConseiller:'Diagnostic et solutions de déplacement',
     objectif:'Faire le point sur mes besoins et trouver des solutions adaptées à mes trajets.',
     ateliers:mergedWorkshops
   };
   const international=existingInternational || {
     title:'Partir à l’étranger',
+    titreJeune:'Partir à l’étranger',
+    titreConseiller:'Mobilité internationale',
     objectif:'Découvrir les possibilités de mobilité internationale et préparer un départ.',
     ateliers:[]
   };
@@ -1191,6 +1415,8 @@ function normalizeEmploymentCategories(data){
   }));
   const merged={
     title:'Me préparer à rencontrer un employeur',
+    titreJeune:'Préparer ma candidature',
+    titreConseiller:'Préparation candidature (CV, entretien, ciblage)',
     objectif:'Préparer ma candidature et savoir présenter mon parcours face à un employeur.',
     ateliers:mergedWorkshops
   };
@@ -1242,6 +1468,75 @@ function setMode(mode){
   render();
 }
 
+function displayTitle(item){
+  const isConseiller = document.body.classList.contains('mode-conseiller');
+  return (isConseiller ? item.titreConseiller : item.titreJeune) || item.title;
+}
+
+const ICON_PATHS = {
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  pencil:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  trash:'<path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>',
+  chevron:'<path d="M6 9l6 6 6-6"/>',
+  x:'<path d="M18 6 6 18"/><path d="M6 6l12 12"/>',
+  alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  download:'<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>',
+  inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>'
+};
+
+function icon(name, extraClass){
+  const paths = ICON_PATHS[name] || '';
+  return `<svg class="icon-svg${extraClass ? ' '+extraClass : ''}" viewBox="0 0 24 24" aria-hidden="true">${paths}</svg>`;
+}
+
+let toastSeq = 0;
+function showToast(message, type){
+  type = type || 'success';
+  const stack = document.getElementById('toastStack');
+  if(!stack){ if(type==='danger'||type==='warning'){ alert(message); } return; }
+  const id = 'toast-'+(++toastSeq);
+  const iconName = type==='danger' ? 'alert' : type==='warning' ? 'alert' : 'check';
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.id = id;
+  el.innerHTML = `<span class="toast-icon">${icon(iconName,'icon-svg-sm')}</span><span>${escapeHtml(message)}</span><button class="toast-close" type="button" aria-label="Fermer la notification">${icon('x','icon-svg-sm')}</button>`;
+  el.querySelector('.toast-close').onclick = () => dismissToast(id);
+  stack.appendChild(el);
+  setTimeout(() => dismissToast(id), 4200);
+}
+function dismissToast(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.add('leaving');
+  setTimeout(() => el.remove(), 200);
+}
+
+function confirmAction({title, message, detail, confirmLabel, cancelAction, onConfirm, danger}){
+  useStandardModal();
+  document.getElementById('modalTitle').textContent = title;
+  const actionId = 'confirmAction_'+(++toastSeq);
+  window[actionId] = () => { onConfirm(); delete window[actionId]; };
+  document.getElementById('modalContent').innerHTML = `
+    <div class="delete-confirmation">
+      <span class="dc-icon">${icon('alert')}</span>
+      <div class="dc-body">
+        <p>${escapeHtml(message)}</p>
+        ${detail ? `<p class="small-note">${escapeHtml(detail)}</p>` : ''}
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn ${danger===false?'primary':'primary'}" type="button" onclick="${actionId}()">${escapeHtml(confirmLabel||'Confirmer')}</button>
+      <button class="btn" type="button" onclick="${cancelAction||'closeModal()'}">Annuler</button>
+    </div>`;
+  openModal();
+}
+
+const BLOCK_EMOJI = {
+  emploi:'💼', projet:'🧭', formation:'🎓', mobilite:'🚌',
+  demarches:'📋', confiance:'💚', engagement:'🤝', 'offre-externe':'🌐'
+};
+
 function iconSvg(name){
   const icons = {
     briefcase:`<svg viewBox="0 0 64 64"><path d="M22 18h20a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4Z"></path><path d="M26 18v-4a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v4"></path><path d="M18 31h28"></path><path d="M30 31v5"></path><path d="M34 31v5"></path></svg>`,
@@ -1287,7 +1582,7 @@ function render(){
     head.className = 'tile-head';
     head.innerHTML = `
       <div class="icon">${iconSvg(block.icon)}</div>
-      <h2>${escapeHtml(block.title)}</h2>
+      <h2>${BLOCK_EMOJI[block.id] ? `<span class="tile-emoji" aria-hidden="true">${BLOCK_EMOJI[block.id]}</span>` : ''}${escapeHtml(displayTitle(block))}</h2>
       <p class="intro">${escapeHtml(document.body.classList.contains('mode-conseiller') ? block.introConseiller : block.introJeune)}</p>
     `;
     head.onclick = ()=> tile.classList.toggle('open');
@@ -1298,7 +1593,7 @@ function render(){
 
     const blockTools = document.createElement('div');
     blockTools.className = 'tile-tools for-conseiller';
-    blockTools.innerHTML = `<span class="small-note">${block.categories.length} sous-catégorie${block.categories.length>1?'s':''}</span><button class="btn mini editable" type="button" onclick="openCategoryModal(${bi})">+ Sous-catégorie</button>`;
+    blockTools.innerHTML = `<span class="small-note">${block.categories.length} sous-catégorie${block.categories.length>1?'s':''}</span><button class="btn mini editable" type="button" onclick="openCategoryModal(${bi})">${icon('plus','icon-svg-sm')} Sous-catégorie</button>`;
     body.appendChild(blockTools);
 
     block.categories.forEach((category, ci)=>{
@@ -1316,14 +1611,15 @@ function render(){
 function renderSubcategory(block, category, bi, ci, entries){
   const row=document.createElement('div');
   row.className='subcategory';
+  const label = displayTitle(category);
   row.innerHTML=`
-    <button class="subcategory-main" type="button" aria-label="Ouvrir la sous-catégorie ${escAttr(category.title)}, ${entries.length} ateliers" onclick="openSubcategory(${bi},${ci})">
-      <span class="subcategory-title">${escapeHtml(category.title)}</span>
+    <button class="subcategory-main" type="button" aria-label="Ouvrir la sous-catégorie ${escAttr(label)}, ${entries.length} ateliers" onclick="openSubcategory(${bi},${ci})">
+      <span class="subcategory-title">${escapeHtml(label)}</span>
       <span class="count">${entries.length}</span>
     </button>
     <span class="subcategory-actions">
-      <button class="icon-action danger for-conseiller" type="button" aria-label="Supprimer la sous-catégorie ${escAttr(category.title)}" title="Supprimer cette sous-catégorie" onclick="removeCategory(${bi},${ci})">−</button>
-      <button class="icon-action" type="button" aria-label="Ouvrir la sous-catégorie ${escAttr(category.title)}" title="Ouvrir cette sous-catégorie" onclick="openSubcategory(${bi},${ci})">+</button>
+      <button class="icon-action danger for-conseiller" type="button" aria-label="Supprimer la sous-catégorie ${escAttr(label)}" title="Supprimer cette sous-catégorie" onclick="removeCategory(${bi},${ci})">${icon('trash')}</button>
+      <button class="icon-action icon-action-nav" type="button" aria-label="Ouvrir la sous-catégorie ${escAttr(label)}" title="Ouvrir cette sous-catégorie" onclick="openSubcategory(${bi},${ci})">${icon('chevron')}</button>
     </span>`;
   return row;
 }
@@ -1335,22 +1631,23 @@ function openSubcategory(bi, ci){
   const entries=getAtelierEntries(block)
     .map((entry,flatIndex)=>({...entry,flatIndex}))
     .filter(entry=>entry.ci===ci && isVisibleForTerritory(entry.atelier));
-  document.getElementById('modalTitle').textContent=category.title;
+  const categoryLabel = displayTitle(category);
+  document.getElementById('modalTitle').textContent=categoryLabel;
   document.querySelector('.modal-box').classList.add('category-view');
   const content=document.getElementById('modalContent');
   content.innerHTML=`
     <div class="category-view-tools">
       <span><b>${entries.length}</b> atelier${entries.length>1?'s':''} pour le territoire sélectionné</span>
       <div class="for-conseiller" style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="icon-action editable" type="button" aria-label="Ajouter un atelier" title="Ajouter un atelier" onclick="openAtelierModal(${bi},${ci})">+</button>
-        <button class="icon-action danger editable" type="button" aria-label="Supprimer la sous-catégorie ${escAttr(category.title)}" title="Supprimer cette sous-catégorie" onclick="removeCategory(${bi},${ci})">−</button>
+        <button class="btn mini primary editable" type="button" aria-label="Ajouter un atelier" onclick="openAtelierModal(${bi},${ci})">${icon('plus','icon-svg-sm')} Ajouter un atelier</button>
+        <button class="icon-action danger editable" type="button" aria-label="Supprimer la sous-catégorie ${escAttr(categoryLabel)}" title="Supprimer cette sous-catégorie" onclick="removeCategory(${bi},${ci})">${icon('trash')}</button>
       </div>
     </div>
     <div class="category-workshops"></div>`;
   const container=content.querySelector('.category-workshops');
   entries.forEach(entry=>container.appendChild(renderAtelier(block,entry.atelier,bi,entry.flatIndex)));
   if(!entries.length){
-    container.innerHTML='<div class="empty-note">Aucun atelier proposé sur ce territoire pour le moment.</div>';
+    container.innerHTML=`<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucun atelier proposé sur ce territoire pour le moment.</div>`;
   }
   openModal();
 }
@@ -1367,8 +1664,8 @@ function renderAtelier(block, atelier, bi, ai){
         <span class="demand-badge ${demandesCount===0?'zero':''}" title="Demandes d’inscription en attente">${demandesCount}</span>
       </div>
       <div class="atelier-summary-actions">
-        <button class="icon-action danger for-conseiller" type="button" aria-label="Supprimer l’atelier ${escAttr(atelier.title)}" title="Supprimer cet atelier" onclick="event.preventDefault();event.stopPropagation();removeAtelier(${bi},${ai})">−</button>
-        <button class="icon-action atelier-toggle" type="button" aria-label="Afficher l’atelier ${escAttr(atelier.title)}" title="Afficher ou réduire cet atelier" onclick="event.preventDefault();event.stopPropagation();toggleAtelier(this)">+</button>
+        <button class="icon-action danger for-conseiller" type="button" aria-label="Supprimer l’atelier ${escAttr(atelier.title)}" title="Supprimer cet atelier" onclick="event.preventDefault();event.stopPropagation();removeAtelier(${bi},${ai})">${icon('trash')}</button>
+        <button class="icon-action atelier-toggle" type="button" aria-label="Afficher l’atelier ${escAttr(atelier.title)}" title="Afficher ou réduire cet atelier" onclick="event.preventDefault();event.stopPropagation();toggleAtelier(this)">${icon('chevron')}</button>
       </div>
     </summary>
     <div class="atelier-content">
@@ -1384,9 +1681,9 @@ function renderAtelier(block, atelier, bi, ai){
         </div>
       </fieldset>
       <div class="atelier-tools editable for-conseiller" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;margin-bottom:10px;">
-        <button class="btn mini" onclick="editAtelier(${bi},${ai})">Modifier</button>
-        <button class="btn mini" onclick="openRequestsModal(${bi},${ai})">Demandes ${demandesCount?`(${demandesCount})`:''}</button>
-        <button class="btn mini" onclick="removeAtelier(${bi},${ai})">Supprimer</button>
+        <button class="btn mini subtle" onclick="editAtelier(${bi},${ai})">${icon('pencil','icon-svg-sm')} Modifier</button>
+        <button class="btn mini subtle" onclick="openRequestsModal(${bi},${ai})">${icon('inbox','icon-svg-sm')} Demandes ${demandesCount?`(${demandesCount})`:''}</button>
+        <button class="btn mini danger-outline" style="margin-left:auto" onclick="removeAtelier(${bi},${ai})">${icon('trash','icon-svg-sm')} Supprimer</button>
       </div>
       ${renderSessions(atelier, bi, ai)}
     </div>
@@ -1394,7 +1691,7 @@ function renderAtelier(block, atelier, bi, ai){
   details.addEventListener('toggle',()=>{
     const toggle=details.querySelector('.atelier-toggle');
     if(toggle){
-      toggle.textContent=details.open?'×':'+';
+      toggle.classList.toggle('is-open', details.open);
       toggle.setAttribute('aria-label',`${details.open?'Réduire':'Afficher'} l’atelier ${atelier.title}`);
     }
   });
@@ -1413,7 +1710,7 @@ function toggleAtelierTerritory(bi,ai,territoryId,input){
   input.checked ? territories.add(territoryId) : territories.delete(territoryId);
   if(!territories.size){
     input.checked=true;
-    alert('Conserve au moins un territoire pour cet atelier.');
+    showToast('Conserve au moins un territoire pour cet atelier.','warning');
     return;
   }
   atelier.territories=[...territories];
@@ -1437,7 +1734,7 @@ function renderSessions(atelier, bi, ai){
           <option value="présent" ${p.status==='présent'?'selected':''}>Présent</option>
           <option value="absent" ${p.status==='absent'?'selected':''}>Absent</option>
         </select>
-        <button class="btn mini" type="button" onclick="removeParticipant(${bi},${ai},${si},${pi})">Supprimer</button>
+        <button class="btn mini danger-outline" type="button" onclick="removeParticipant(${bi},${ai},${si},${pi})">${icon('trash','icon-svg-sm')} Supprimer</button>
       </div>
     `).join('');
 
@@ -1451,8 +1748,8 @@ function renderSessions(atelier, bi, ai){
         <div class="session-head">
           <h4>${sessionTitle}</h4>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn mini editable" type="button" onclick="downloadParticipants(${bi},${ai},${si})">Télécharger participants</button>
-            <button class="btn mini editable" type="button" onclick="removeSession(${bi},${ai},${si})">Supprimer</button>
+            <button class="btn mini subtle editable" type="button" onclick="downloadParticipants(${bi},${ai},${si})">${icon('download','icon-svg-sm')} Télécharger participants</button>
+            <button class="btn mini danger-outline editable" type="button" onclick="removeSession(${bi},${ai},${si})">${icon('trash','icon-svg-sm')} Supprimer</button>
           </div>
         </div>
         <div class="session-form editable">
@@ -1480,12 +1777,12 @@ function renderSessions(atelier, bi, ai){
           <div class="field"><b>Horaire</b><span>${escapeHtml(s.horaire||'Non renseigné')}</span></div>
           <div class="field"><b>Lieu</b><span>${escapeHtml(s.lieu||'Non renseigné')}</span></div>
           <div class="field"><b>Inscription</b><span>${s.inscription ? `<a class="download-link" href="${escAttr(s.inscription)}" target="_blank">Accéder au lien</a>` : 'Non renseigné'}</span></div>
-        </div>` : `<div class="empty-note">Aucune information de session renseignée pour le moment.</div>`}
+        </div>` : `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucune information de session renseignée pour le moment.</div>`}
         <div class="resource-head for-conseiller" style="margin-top:10px;">
           <h4>Participants</h4>
-          <button class="btn mini editable" type="button" onclick="addParticipant(${bi},${ai},${si})">+ Ajouter</button>
+          <button class="btn mini subtle editable" type="button" onclick="addParticipant(${bi},${ai},${si})">${icon('plus','icon-svg-sm')} Ajouter</button>
         </div>
-        <div class="for-conseiller">${participants || `<div class="empty-note">Aucun participant renseigné pour le moment.</div>`}</div>
+        <div class="for-conseiller">${participants || `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucun participant renseigné pour le moment.</div>`}</div>
       </div>
     `;
   }).join('');
@@ -1496,13 +1793,13 @@ function renderSessions(atelier, bi, ai){
         <h4>${visitMode?'Visites / calendrier':'Sessions / calendrier'}</h4>
         <div class="summary-right">
           <span class="count">${sessions.length}</span>
-          <button class="btn mini editable" type="button" onclick="event.preventDefault(); event.stopPropagation(); openSessionModal(${bi},${ai})">${visitMode?'+ Nouvelle visite':'+ Ajouter'}</button>
-          <span class="summary-toggle">+</span>
+          <button class="btn mini primary editable" type="button" onclick="event.preventDefault(); event.stopPropagation(); openSessionModal(${bi},${ai})">${icon('plus','icon-svg-sm')} ${visitMode?'Nouvelle visite':'Ajouter'}</button>
+          <span class="summary-toggle">${icon('plus','icon-svg-sm')}</span>
         </div>
       </summary>
       <div class="resource-body">
         <div class="management-hint">Passe en entrée conseiller pour créer des sessions, gérer le calendrier et suivre les participants.</div>
-        ${cards || `<div class="empty-note">Aucune session renseignée pour le moment.</div>`}
+        ${cards || `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucune session renseignée pour le moment.</div>`}
       </div>
     </details>
   `;
@@ -1528,13 +1825,13 @@ function openAtelierModal(bi, ci){
   document.getElementById('modalTitle').textContent = 'Ajouter un atelier';
   document.getElementById('modalContent').innerHTML = `
     <div class="modal-grid">
-      <div class="full"><label>Intitulé de l’atelier</label><input id="mAtelierTitle" placeholder="Ex. Préparer ma candidature"></div>
+      <div class="full"><label>Intitulé de l’atelier</label><input id="mAtelierTitle" placeholder="Ex. Préparer ma candidature"><span class="field-help">Visible par les jeunes et les conseillers dans la liste des ateliers.</span></div>
       <div class="full"><label>Objectif</label><textarea id="mAtelierObjectif" placeholder="Objectif opérationnel"></textarea></div>
-      <div class="full"><label>Actions proposées</label><textarea id="mAtelierContenu" placeholder="Une action par ligne"></textarea></div>
+      <div class="full"><label>Actions proposées</label><textarea id="mAtelierContenu" placeholder="Une action par ligne"></textarea><span class="field-help">Une ligne = une action affichée en liste à puces.</span></div>
       ${renderTerritoryOptions(TERRITORIES.map(t=>t.id))}
     </div>
     <div class="actions">
-      <button class="btn primary" type="button" onclick="confirmAddAtelier(${bi},${ci})">Ajouter</button>
+      <button class="btn primary" type="button" onclick="confirmAddAtelier(${bi},${ci})">${icon('plus','icon-svg-sm')} Ajouter l’atelier</button>
       <button class="btn" type="button" onclick="closeModal()">Annuler</button>
     </div>
   `;
@@ -1549,7 +1846,7 @@ function openCategoryModal(bi){
       <div class="full"><label for="mCategoryTitle">Nom de la sous-catégorie</label><input id="mCategoryTitle" placeholder="Ex. Découvrir les secteurs qui recrutent"></div>
     </div>
     <div class="actions">
-      <button class="btn primary" type="button" onclick="confirmAddCategory(${bi})">Ajouter</button>
+      <button class="btn primary" type="button" onclick="confirmAddCategory(${bi})">${icon('plus','icon-svg-sm')} Ajouter</button>
       <button class="btn" type="button" onclick="closeModal()">Annuler</button>
     </div>`;
   openModal();
@@ -1557,34 +1854,42 @@ function openCategoryModal(bi){
 
 function confirmAddCategory(bi){
   const title=valueOf('mCategoryTitle').trim();
-  if(!title){ alert('Le nom de la sous-catégorie est obligatoire.'); return; }
+  if(!title){ showToast('Le nom de la sous-catégorie est obligatoire.','warning'); return; }
   appData.blocks[bi].categories.push({title,objectif:'',ateliers:[]});
   const ci=appData.blocks[bi].categories.length-1;
   saveData();
   render();
   openSubcategory(bi,ci);
+  showToast(`Sous-catégorie « ${title} » ajoutée.`,'success');
 }
 
 function removeCategory(bi,ci){
   const category=appData.blocks[bi]?.categories?.[ci];
   if(!category) return;
   const count=(category.ateliers||[]).length;
-  const message=count
-    ? `Supprimer cette sous-catégorie et ses ${count} atelier${count>1?'s':''} ?`
-    : 'Supprimer cette sous-catégorie ?';
-  if(!confirm(message)) return;
-  appData.blocks[bi].categories.splice(ci,1);
-  closeModal();
-  refreshAndReopen(bi,null);
+  const label=displayTitle(category);
+  confirmAction({
+    title:'Supprimer une sous-catégorie',
+    message:`Confirmer la suppression de « ${label} » ?`,
+    detail: count ? `Ses ${count} atelier${count>1?'s':''} seront également supprimés.` : null,
+    confirmLabel:'Supprimer définitivement',
+    cancelAction:'closeModal()',
+    onConfirm: () => {
+      appData.blocks[bi].categories.splice(ci,1);
+      closeModal();
+      refreshAndReopen(bi,null);
+      showToast(`Sous-catégorie « ${label} » supprimée.`,'success');
+    }
+  });
 }
 
 function confirmAddAtelier(bi, ci){
   const block = appData.blocks[bi];
   const category = block.categories[ci];
   const title = valueOf('mAtelierTitle').trim();
-  if(!title){ alert('Intitulé obligatoire.'); return; }
+  if(!title){ showToast('Intitulé obligatoire.','warning'); return; }
   const territories = checkedTerritories();
-  if(!territories.length){ alert('Sélectionne au moins un territoire.'); return; }
+  if(!territories.length){ showToast('Sélectionne au moins un territoire.','warning'); return; }
   category.ateliers.push({
     title,
     objectif:valueOf('mAtelierObjectif').trim(),
@@ -1596,6 +1901,7 @@ function confirmAddAtelier(bi, ci){
   saveData();
   render();
   openSubcategory(bi,ci);
+  showToast(`Atelier « ${title} » ajouté.`,'success');
 }
 
 function editAtelier(bi, ai){
@@ -1611,7 +1917,7 @@ function editAtelier(bi, ai){
       ${renderTerritoryOptions(getAtelierTerritories(a))}
     </div>
     <div class="actions">
-      <button class="btn primary" type="button" onclick="confirmEditAtelier(${bi},${ai})">Valider les modifications</button>
+      <button class="btn primary" type="button" onclick="confirmEditAtelier(${bi},${ai})">${icon('check','icon-svg-sm')} Valider les modifications</button>
       <button class="btn" type="button" onclick="closeModal()">Annuler</button>
     </div>
   `;
@@ -1622,9 +1928,9 @@ function confirmEditAtelier(bi, ai){
   const entry=getAtelierEntry(bi,ai);
   const a = getAtelier(bi, ai);
   const title = valueOf('mAtelierTitle').trim();
-  if(!title){ alert('Intitulé obligatoire.'); return; }
+  if(!title){ showToast('Intitulé obligatoire.','warning'); return; }
   const territories = checkedTerritories();
-  if(!territories.length){ alert('Sélectionne au moins un territoire.'); return; }
+  if(!territories.length){ showToast('Sélectionne au moins un territoire.','warning'); return; }
   a.title = title;
   a.objectif = valueOf('mAtelierObjectif').trim();
   a.contenu = valueOf('mAtelierContenu').split(/\n+/).map(s=>s.trim()).filter(Boolean);
@@ -1632,6 +1938,7 @@ function confirmEditAtelier(bi, ai){
   saveData();
   render();
   openSubcategory(bi,entry.ci);
+  showToast(`Atelier « ${title} » mis à jour.`,'success');
 }
 
 function removeAtelier(bi, ai){
@@ -1642,12 +1949,15 @@ function removeAtelier(bi, ai){
   document.getElementById('modalTitle').textContent='Supprimer un atelier';
   document.getElementById('modalContent').innerHTML=`
     <div class="delete-confirmation">
-      <p>Confirmer la suppression de l’atelier :</p>
-      <p><strong>${escapeHtml(atelier.title)}</strong></p>
-      <p class="small-note">Ses sessions, son calendrier et ses inscriptions seront également supprimés.</p>
+      <span class="dc-icon">${icon('alert')}</span>
+      <div class="dc-body">
+        <p>Confirmer la suppression de l’atelier :</p>
+        <p><strong>${escapeHtml(atelier.title)}</strong></p>
+        <p class="small-note">Ses sessions, son calendrier et ses inscriptions seront également supprimés.</p>
+      </div>
     </div>
     <div class="actions">
-      <button class="btn primary" type="button" onclick="confirmRemoveAtelier(${bi},${ai})">Supprimer définitivement</button>
+      <button class="btn primary" type="button" onclick="confirmRemoveAtelier(${bi},${ai})">${icon('trash','icon-svg-sm')} Supprimer définitivement</button>
       <button class="btn" type="button" onclick="openSubcategory(${bi},${entry.ci})">Annuler</button>
     </div>`;
   openModal();
@@ -1656,10 +1966,12 @@ function removeAtelier(bi, ai){
 function confirmRemoveAtelier(bi,ai){
   const entry=getAtelierEntry(bi,ai);
   if(!entry) return closeModal();
+  const title=entry.atelier.title;
   appData.blocks[bi].categories[entry.ci].ateliers.splice(entry.ai,1);
   saveData();
   render();
   openSubcategory(bi,entry.ci);
+  showToast(`Atelier « ${title} » supprimé.`,'success');
 }
 
 function openSessionModal(bi, ai){
@@ -1682,7 +1994,7 @@ function openSessionModal(bi, ai){
       <div class="full"><label>Notes / consignes</label><textarea id="mSessionNotes" placeholder="Informations utiles pour les conseillers"></textarea></div>
     </div>
     <div class="actions">
-      <button class="btn primary" type="button" onclick="confirmAddSession(${bi},${ai})">${visitMode?'Créer la visite':'Créer la session'}</button>
+      <button class="btn primary" type="button" onclick="confirmAddSession(${bi},${ai})">${icon('plus','icon-svg-sm')} ${visitMode?'Créer la visite':'Créer la session'}</button>
       <button class="btn" type="button" onclick="closeModal()">Annuler</button>
     </div>
   `;
@@ -1696,10 +2008,10 @@ function confirmAddSession(bi, ai){
   const structureName=valueOf('mStructureName').trim();
   const sector=valueOf('mStructureSector').trim();
   const organizerService=valueOf('mOrganizerService').trim();
-  if(visitMode && !structureType){ alert('Sélectionne un type de structure.'); return; }
-  if(visitMode && !structureName){ alert('Renseigne le nom de la structure.'); return; }
-  if(visitMode && !sector){ alert('Renseigne le secteur d’activité.'); return; }
-  if(visitMode && !organizerService){ alert('Renseigne le service organisateur.'); return; }
+  if(visitMode && !structureType){ showToast('Sélectionne un type de structure.','warning'); return; }
+  if(visitMode && !structureName){ showToast('Renseigne le nom de la structure.','warning'); return; }
+  if(visitMode && !sector){ showToast('Renseigne le secteur d’activité.','warning'); return; }
+  if(visitMode && !organizerService){ showToast('Renseigne le service organisateur.','warning'); return; }
   atelier.sessions.push({
     structureType,
     structureName,
@@ -1713,6 +2025,7 @@ function confirmAddSession(bi, ai){
     participants:[]
   });
   refreshAndOpenAtelier(bi,ai);
+  showToast(visitMode ? 'Visite créée.' : 'Session créée.','success');
 }
 
 function addSession(bi, ai){
@@ -1723,8 +2036,22 @@ function updateSession(bi, ai, si, field, value){
   saveData();
 }
 function removeSession(bi, ai, si){
-  getAtelier(bi, ai).sessions.splice(si,1);
-  refreshAndOpenAtelier(bi,ai);
+  const atelier=getAtelier(bi,ai);
+  const session=atelier?.sessions?.[si];
+  if(!session) return;
+  const participantsCount=(session.participants||[]).length;
+  confirmAction({
+    title:'Supprimer la session',
+    message:'Confirmer la suppression de cette session ?',
+    detail: participantsCount ? `Les ${participantsCount} participant${participantsCount>1?'s':''} associés seront également supprimés.` : null,
+    confirmLabel:'Supprimer définitivement',
+    cancelAction:`refreshAndOpenAtelier(${bi},${ai})`,
+    onConfirm: () => {
+      atelier.sessions.splice(si,1);
+      refreshAndOpenAtelier(bi,ai);
+      showToast('Session supprimée.','success');
+    }
+  });
 }
 function addParticipant(bi, ai, si){
   getAtelier(bi, ai).sessions[si].participants.push({name:'', status:'inscrit'});
@@ -1787,7 +2114,7 @@ function confirmRegister(bi, ai){
   const contact = valueOf('mInsContact').trim();
   const message = valueOf('mInsMessage').trim();
   if(!name){
-    alert('Merci de renseigner votre nom et prénom.');
+    showToast('Merci de renseigner votre nom et prénom.','warning');
     return;
   }
 
@@ -1802,7 +2129,7 @@ function confirmRegister(bi, ai){
   }
   saveData();
   closeModal();
-  alert('Votre demande d’inscription a bien été enregistrée.');
+  showToast('Votre demande d’inscription a bien été enregistrée.','success');
   refresh();
 }
 
@@ -1812,7 +2139,7 @@ function convertRegistrationRequest(bi, ai, ri, targetSessionIndex){
   atelier.demandesInscription = atelier.demandesInscription || [];
   atelier.sessions = atelier.sessions || [];
   const si = Number(targetSessionIndex);
-  if(Number.isNaN(si) || !atelier.sessions[si]){ alert('Sélectionne une session valide.'); return; }
+  if(Number.isNaN(si) || !atelier.sessions[si]){ showToast('Sélectionne une session valide.','warning'); return; }
   const demande = atelier.demandesInscription[ri];
   if(!demande){ return; }
   atelier.sessions[si].participants = atelier.sessions[si].participants || [];
@@ -1826,6 +2153,7 @@ function convertRegistrationRequest(bi, ai, ri, targetSessionIndex){
   saveData();
   openRequestsModal(bi, ai);
   refresh();
+  showToast('Demande convertie en inscription.','success');
 }
 
 function removeRegistrationRequest(bi, ai, ri){
@@ -1861,14 +2189,14 @@ function openRequestsModal(bi, ai){
       ${sessions.length ? `
         <div class="request-convert">
           <select id="convertSession_${bi}_${ai}_${ri}">${sessionOptions}</select>
-          <button class="btn mini" type="button" onclick="convertRegistrationRequest(${bi},${ai},${ri}, document.getElementById('convertSession_${bi}_${ai}_${ri}').value)">Convertir en participant</button>
+          <button class="btn mini primary" type="button" onclick="convertRegistrationRequest(${bi},${ai},${ri}, document.getElementById('convertSession_${bi}_${ai}_${ri}').value)">${icon('check','icon-svg-sm')} Convertir en participant</button>
         </div>
-      ` : `<div class="empty-note">Crée d’abord une session pour pouvoir convertir cette demande en participant.</div>`}
+      ` : `<div class="empty-note">${icon('inbox','icon-svg-sm')} Crée d’abord une session pour pouvoir convertir cette demande en participant.</div>`}
       <div class="request-actions">
-        <button class="btn mini" type="button" onclick="removeRegistrationRequest(${bi},${ai},${ri})">Supprimer</button>
+        <button class="btn mini danger-outline" type="button" onclick="removeRegistrationRequest(${bi},${ai},${ri})">${icon('trash','icon-svg-sm')} Supprimer</button>
       </div>
     </div>
-  `).join('') : `<div class="empty-note">Aucune demande hors session enregistrée pour le moment.</div>`;
+  `).join('') : `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucune demande hors session enregistrée pour le moment.</div>`;
 
   const sessionHtml = sessions.length ? sessions.map((s, si)=>{
     const participants = (s.participants||[]).length;
@@ -1901,10 +2229,10 @@ function openRequestsModal(bi, ai){
               <tbody>${rows}</tbody>
             </table>
           </div>
-        ` : `<div class="empty-note">Aucune inscription dans cette session pour le moment.</div>`}
+        ` : `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucune inscription dans cette session pour le moment.</div>`}
       </div>
     `;
-  }).join('') : `<div class="empty-note">Aucune session n’est créée pour cet atelier.</div>`;
+  }).join('') : `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucune session n’est créée pour cet atelier.</div>`;
 
   document.getElementById('modalTitle').textContent = 'Demandes d’inscription';
   document.getElementById('modalContent').innerHTML = `
@@ -1952,16 +2280,27 @@ function importData(event){
       if(!data.blocks) throw new Error('Format invalide');
       appData = data;
       refresh();
-    }catch(err){ alert('Fichier JSON invalide.'); }
+      showToast('Données importées avec succès.','success');
+    }catch(err){ showToast('Fichier JSON invalide.','danger'); }
   };
   reader.readAsText(file);
   event.target.value = '';
 }
 
 function resetData(){
-  if(!confirm('Réinitialiser l’outil avec la version de départ ?')) return;
-  appData = JSON.parse(JSON.stringify(defaultData));
-  refresh();
+  confirmAction({
+    title:'Réinitialiser l’outil',
+    message:'Réinitialiser l’outil avec la version de départ ?',
+    detail:'Toutes les modifications non exportées seront perdues.',
+    confirmLabel:'Réinitialiser',
+    cancelAction:'closeModal()',
+    onConfirm: () => {
+      appData = JSON.parse(JSON.stringify(defaultData));
+      refresh();
+      closeModal();
+      showToast('Outil réinitialisé.','success');
+    }
+  });
 }
 
 function refresh(){
