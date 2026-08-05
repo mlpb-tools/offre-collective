@@ -599,6 +599,7 @@
   .icon-svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;vertical-align:-3px}
   .icon-svg.icon-svg-sm{width:13px;height:13px}
   .icon-action-nav .icon-svg{transform:rotate(-90deg);}
+  .atelier-resource-link{margin:2px 0 10px;}
   .atelier-toggle .icon-svg,.summary-toggle .icon-svg{transition:transform .15s var(--cs-ease);}
   .atelier-toggle.is-open .icon-svg{transform:rotate(180deg);}
 
@@ -772,6 +773,27 @@
   /* ====== Toasts assortis ====== */
   .toast{border:1.5px solid rgba(255,255,255,.14);box-shadow:var(--nb-shadow-md);}
 
+  /* ====== Barre de gestion des données ====== */
+  .data-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;}
+  .data-tools .btn{font-size:12px;padding:8px 14px;}
+  .save-status{font-size:12px;font-weight:700;color:var(--cs-muted);}
+  .data-tools-advanced{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(23,23,24,.15);}
+  .data-tools-advanced[hidden]{display:none;}
+  .data-tools-advanced .btn{font-size:11.5px;padding:7px 12px;}
+
+  /* ====== Journal des modifications ====== */
+  .log-list{max-height:50vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+  .log-row{display:grid;grid-template-columns:150px 100px 1fr;gap:10px;align-items:baseline;padding:8px 10px;border:1.5px solid rgba(23,23,24,.12);border-radius:10px;background:var(--cs-surface-alt);font-size:12.5px;}
+  .log-date{color:var(--cs-muted);white-space:nowrap;}
+  .log-action{font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.03em;padding:2px 8px;border-radius:999px;text-align:center;}
+  .log-action-ajout{background:var(--cs-success-soft);color:var(--cs-success);}
+  .log-action-modification{background:#e4f2fc;color:#2897d5;}
+  .log-action-suppression{background:var(--cs-danger-soft);color:var(--cs-danger);}
+  .log-action-import,.log-action-réinitialisation{background:var(--cs-warning-soft);color:var(--cs-warning);}
+  .log-action-publication{background:#e8f0fe;color:#1a56db;}
+  .log-label{color:var(--cs-ink);}
+  @media(max-width:640px){.log-row{grid-template-columns:1fr;gap:2px;}}
+
   @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;}}
 </style>
 
@@ -796,6 +818,19 @@
           <option value="sud-pb">Sud Pays Basque</option>
           <option value="pbi">Pays Basque Intérieur</option>
         </select>
+      </div>
+      <div class="data-tools for-conseiller" role="group" aria-label="Gestion des données">
+        <button class="btn primary" type="button" onclick="saveToSharedSheet()" title="Enregistrer et partager tes modifications avec toute l’équipe">Enregistrer</button>
+        <span id="saveStatus" class="save-status" aria-live="polite"></span>
+        <button class="icon-action" type="button" onclick="toggleAdvancedTools()" id="advancedToggleBtn" aria-expanded="false" aria-controls="advancedTools" title="Options avancées" aria-label="Options avancées">⋯</button>
+      </div>
+      <div class="data-tools-advanced for-conseiller" id="advancedTools" hidden>
+        <button class="btn mini subtle" type="button" onclick="openLogModal()" title="Voir l’historique des modifications">Journal</button>
+        <button class="btn mini subtle" type="button" onclick="exportData()" title="Télécharger un fichier JSON de l’état actuel">Exporter</button>
+        <button class="btn mini subtle" type="button" onclick="document.getElementById('importFile').click()" title="Charger un fichier JSON exporté précédemment">Importer</button>
+        <button class="btn mini subtle" type="button" id="publishGithubBtn" onclick="publishToGithub()" title="Committer les données actuelles directement sur GitHub">Publier sur GitHub</button>
+        <button class="icon-action" type="button" id="githubSettingsBtn" onclick="openGithubSettingsModal()" title="Paramètres de connexion GitHub" aria-label="Paramètres de connexion GitHub">⚙</button>
+        <button class="btn mini danger-outline" type="button" onclick="resetData()" title="Revenir à la version de départ">Réinitialiser</button>
       </div>
     </div>
   </header>
@@ -1162,7 +1197,34 @@
   </div>
 
 <script>
-const STORAGE_KEY = 'mlpb_offre_collective_v13_sous_categories';
+const STORAGE_KEY = 'mlpb_offre_collective_v14_ml_skills';
+
+/* ====== Accès administrateur (toi seul) ======
+   Les fonctions liées à GitHub (jeton, dépôt, publication) ne doivent être
+   visibles ni utilisables que par toi. Pas de vrai système de comptes ici
+   (l’outil n’a pas de serveur) : l’accès repose sur un lien secret que toi
+   seul connais. Une fois ouvert une fois sur un appareil/navigateur donné,
+   il reste mémorisé — pas besoin de le retaper à chaque fois.
+   Pour changer le mot de passe du lien, remplace la valeur ci-dessous. */
+const ADMIN_ACCESS_KEY = 'mat-9247-admin';
+const ADMIN_FLAG_KEY = 'mlpb_offre_collective_admin_flag';
+function isAdminUser(){
+  try{
+    const params = new URLSearchParams(location.search);
+    if(params.get('admin') === ADMIN_ACCESS_KEY){
+      localStorage.setItem(ADMIN_FLAG_KEY, '1');
+      return true;
+    }
+    return localStorage.getItem(ADMIN_FLAG_KEY) === '1';
+  }catch(e){ return false; }
+}
+function applyAdminVisibility(){
+  const admin = isAdminUser();
+  const publishBtn = document.getElementById('publishGithubBtn');
+  const settingsBtn = document.getElementById('githubSettingsBtn');
+  if(publishBtn) publishBtn.style.display = admin ? '' : 'none';
+  if(settingsBtn) settingsBtn.style.display = admin ? '' : 'none';
+}
 
 const defaultData = {
   blocks: [
@@ -1245,8 +1307,7 @@ const defaultData = {
       introConseiller:'Offre consolidée engagement : bénévolat, citoyenneté, culture, transition écologique et projets collectifs.',
       ateliers:[
         {title:'Découvrir le bénévolat et trouver une mission', titreJeune:'Devenir bénévole', titreConseiller:'Bénévolat et missions (service civique)', objectif:'Identifier une forme d’engagement adaptée à mes envies et à mes disponibilités.', public:'Jeunes souhaitant découvrir le bénévolat ou s’engager ponctuellement.', contenu:['Bénévolat – mise en relation avec des associations','Devenez bénévoles signaleurs','Plateforme HEROOES – finalité à préciser','Découvrir le service civique et les projets locaux'], sessions:[]},
-        {title:'Participer à un projet collectif ou citoyen', titreJeune:'Participer à un projet citoyen', titreConseiller:'Projets collectifs et citoyens (QPV, culture)', objectif:'Prendre une place active dans un projet et contribuer aux décisions.', public:'Jeunes intéressés par la citoyenneté, la culture ou les projets de territoire.', contenu:['Cité éducative – projets QPV','Atelier culture','Les rendez-vous du 7 bis – contenu à préciser','Bilan participatif du collectif Impuls’CEJ'], sessions:[]},
-        {title:'Agir pour l’environnement et valoriser mon engagement', titreJeune:'Agir pour l’environnement', titreConseiller:'Transition écologique et valorisation de l’engagement', objectif:'Participer à une action utile et reconnaître les compétences développées.', public:'Jeunes souhaitant agir pour la transition écologique ou valoriser une expérience collective.', contenu:['Transition écologique','Actions nature et environnement','Identifier les compétences développées','Valoriser l’engagement dans un CV, un entretien ou un projet'], sessions:[]}
+        {title:'Participer à un projet collectif ou citoyen', titreJeune:'Participer à un projet citoyen', titreConseiller:'Projets collectifs et citoyens (QPV, culture)', objectif:'Prendre une place active dans un projet et contribuer aux décisions.', public:'Jeunes intéressés par la citoyenneté, la culture ou les projets de territoire.', contenu:['Cité éducative – projets QPV','Atelier culture','Les rendez-vous du 7 bis – contenu à préciser','Bilan participatif du collectif Impuls’CEJ'], sessions:[]}
       ]
     },
     {
@@ -1256,9 +1317,9 @@ const defaultData = {
       introJeune:'Découvrir les ateliers proposés avec nos partenaires.',
       introConseiller:'Vue transversale des interventions portées ou coanimées par des partenaires. Chaque offre reste également reliée au besoin principal du jeune.',
       ateliers:[
-        {title:'Découvrir un métier et construire mon projet', titreJeune:'Découvrir un métier', titreConseiller:'Découverte métier et projet (DECLIC 1, 2, 4)', objectif:'Accéder aux ateliers extérieurs de découverte des métiers et de construction du projet.', public:'Jeunes ayant besoin d’explorer, de tester ou de consolider une piste professionnelle.', contenu:['DECLIC 1 – Découvrir et essayer son métier de demain','DECLIC 2 – Construire son projet à partir de ses atouts','DECLIC 4 – Découvrir les compétences attendues avec CléA','Découverte des métiers de l’audiovisuel et du cinéma'], sessions:[]},
-        {title:'Renforcer ma confiance et préparer mon entretien', titreJeune:'Préparer mon entretien', titreConseiller:'Confiance et entretien (DECLIC 3, 7)', objectif:'Mobiliser mes capacités et mieux me présenter dans une situation professionnelle.', public:'Jeunes souhaitant gagner en confiance ou préparer un entretien.', contenu:['DECLIC 3 – Mieux mobiliser ses capacités','DECLIC 7 – Pitch vitaminé','Confiance en soi','Paroles de filles'], sessions:[]},
-        {title:'Développer mon autonomie', titreJeune:'Développer mon autonomie', titreConseiller:'Autonomie numérique, mobilité et savoirs de base (DECLIC 5, 6)', objectif:'Renforcer mes compétences numériques, mes savoirs de base ou ma mobilité.', public:'Jeunes ayant besoin d’un appui spécialisé pour gagner en autonomie.', contenu:['DECLIC 5 – Outils numériques du futur métier','DECLIC 6 – Code de la route','Mentorat FLE, savoirs de base et code de la route','Purple Town – prévention des addictions','La Fibre 64 et HEROOES – contenus à préciser'], sessions:[]}
+        {title:'Offre FT', titreJeune:'Offre FT', titreConseiller:'Offre FT', objectif:'', public:'', contenu:[], sessions:[]},
+        {title:'Offre SDSEI', titreJeune:'Offre SDSEI', titreConseiller:'Offre SDSEI', objectif:'', public:'', contenu:[], sessions:[]},
+        {title:'Offres partenaires', titreJeune:'Offres partenaires', titreConseiller:'Offres partenaires', objectif:'', public:'', contenu:[], sessions:[]}
       ]
     }
   ]
@@ -1267,21 +1328,21 @@ const defaultData = {
 const CLASSIFIED_WORKSHOPS = {
   emploi: {
     'Me préparer à rencontrer un employeur': [
-      'Méthodes d’organisation et ciblage d’entreprises','Parcours CV','TRE CV et lettre de motivation avec l’IA','S’orienter vers les outils de France Travail','Préparer les entretiens d’embauche','Capsules Pro','LS4YOU – Prendre la parole en public'
+      'CV- Lettre de motivation et l’IA','DECLIC 7- Pitch vitaminé','DECLIC 4 Découvrir les compétences de base attendues par les employeurs','Me préparer à la rencontre avec un employeur et une entreprise','LS4YOU – Prendre la parole en public'
     ],
     'Rencontrer des employeurs': [
-      'Information collective entreprises/CFA','Visites d’entreprises','BETIJOBS / Rencontres emploi','Information collective intérim','Réunion sur les métiers de la propreté – INHNI','Forum Immersion','Repas Immersion','Kafé Emploi Immersion','Rencontre avec des jeunes vulnérables dans les CFA'
+      'Information collective entreprises/ESAT','Visites d’entreprises','Evenements emplois'
     ]
   },
   projet: {
     'Mieux me connaître et identifier mes atouts': [
-      'Me connaître et agir','DEFIS et ressources intérieures','Les Compétences fortes','LS4YOU – Valoriser mes expériences de vie'
+      'Me connaître et agir','DEFIS et ressources transférables','Mes compétences pro','DECLIC 3 Mieux mobiliser ses capacités et gagner en confiance','LS4YOU – Valoriser mes expériences de vie'
     ],
     'Construire mon projet professionnel': [
-      'Avenir Pro','Les étapes de mon projet professionnel','Boost ton avenir – ADVP','Bidea Argitu','LS4YOU – Apprendre à faire les bons choix'
+      'Les étapes de mon projet professionnel','Boost ton avenir – ADVP','DECLIC 1 Découvrir et essayer son métier de demain grandeur nature','DECLIC 2 Construire son projet à partir de ses forces','LS4YOU – Apprendre à faire les bons choix'
     ],
     'Découvrir des métiers et préparer une immersion': [
-      'Rencontre métiers verts et métiers de demain','Escape Game','Convention PMSMP et recherche de stage','Handicap et visite d’ESAT'
+      'Escape Game- A la découverte de métiers','Convention PMSMP/ MISPE et recherche de stage','Journées portes ouvertes, visites OF/CFA/ESAT','Exploration métiers'
     ]
   },
   formation: {
@@ -1289,53 +1350,186 @@ const CLASSIFIED_WORKSHOPS = {
       'En route vers ma formation','Parcours Sup','Zoom PTP, VAE, démission-démissionnaire et usure professionnelle'
     ],
     'Préparer mon entrée en formation': [
-      'Rencontres de jeunes vulnérables dans les CFA'
+      'DECLIC 7 Pitch vitaminé','Gérer mes émotions'
     ],
     'Rencontrer un CFA ou un organisme de formation': [
       'Information collective entreprises/CFA','Réunion métiers de la propreté – INHNI'
     ]
   },
   mobilite: {
-    'Organiser mes déplacements': ['Mobilité locale'],
+    'Organiser mes déplacements': ['Mobilité locale-Je me déplace'],
     'Préparer le code et gagner en autonomie': ['DECLIC 6 – Code de la route','Mentorat – Code de la route'],
-    'Partir à l’étranger': []
+    'Partir à l’étranger': ['Atelier Mobilité internationale']
   },
   demarches: {
     'Comprendre mes droits et gérer mes démarches': [
-      'Mon premier CEJ','Mon Appli CEJ','Atelier accès aux droits et accompagnements spécifiques','LS4YOU – Apprendre à m’organiser et gérer mes démarches','LS4YOU – Apprendre à demander de l’aide'
+      'Mon premier CEJ et mon appli CEJ','Atelier accès aux droits et accompagnements spécifiques','LS4YOU – Apprendre à m’organiser et gérer mes démarches','LS4YOU – Apprendre à demander de l’aide'
     ],
     'Être aidé pour le logement et le budget': [
-      'Logement – Impuls’Emploi','Logement','Je gère mon budget'
+      'Logement – Impuls’Emploi','Trouver un logement et connaitre les aides','Vraies vies vrais défis','Sécuriser mes ressources concrètes'
     ],
     'Renforcer mes compétences de base et numériques': [
-      'Illettrisme','PIX Emploi','EVA','La Fibre 64','Mentorat – FLE et savoirs de base','LS4YOU – Développer mon esprit critique'
+      'PIX Emploi','EVA','La Fibre 64','Mentorat – FLE et savoirs de base','LS4YOU – Développer mon esprit critique'
     ]
   },
   confiance: {
     'Prendre soin de ma santé et de mon bien-être': [
-      'Atelier cuisine','Activités physiques MUGITU','Santé, prévention et promotion de la santé','Les petits déjeuners du CEJ','Pause nature'
+      'Activités physiques MUGITU','Santé, prévention et promotion de la santé','Les petits déj','Santé Emploi: Quelles possibilités?','Bilan de santé','Paroles de filles'
     ],
     'Développer ma confiance et gérer mes émotions': [
-      'Paroles de filles','DECLIC 3 – Confiance et capacités','Confiance en soi','DEFIS et ressources intérieures','LS4YOU – Développer ma confiance en moi','LS4YOU – Savoir dire non','LS4YOU – Gérer mon stress et mes émotions'
+      'DECLIC 3 – Confiance et capacités','Confiance en soi','LS4YOU – Développer ma confiance en moi','LS4YOU – Savoir dire non','LS4YOU – Gérer mon stress et mes émotions'
     ],
     'Prévenir les risques et adapter mon projet à ma santé': [
-      'Santé–emploi : quelles possibilités ?','Purple Town','Premiers secours en santé mentale'
+      'Purple Town','Premiers secours en santé mentale'
     ]
   },
   engagement: {
     'Découvrir le bénévolat et trouver une mission': [
-      'Plateforme HEROOES','Bénévolat','Devenez bénévoles signaleurs'
+      'Plateforme HEROOES','Bénévolat'
     ],
     'Participer à un projet collectif ou citoyen': [
-      'Cité éducative – projets QPV','Bilan du collectif Impuls’CEJ','Les rendez-vous du 7 bis','Atelier culture','LS4YOU – Coopérer et travailler avec les autres'
-    ],
-    'Agir pour l’environnement et valoriser mon engagement': [
-      'Transition écologique','Pause nature'
+      'Cité éducative – projets QPV','Les rendez-vous du 7 bis','Atelier culture','LS4YOU – Coopérer et travailler avec les autres'
     ]
   }
 };
 
 const ALL_TERRITORIES = ['bab-nord','bab-sud','sud-pb','pbi'];
+const ATELIER_LINKS = {
+  'LS4YOU – Apprendre à m’organiser et gérer mes démarches':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_01_Organisation_demarches.html',
+  'LS4YOU – Développer ma confiance en moi':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_02_Confiance_en_moi.html',
+  'LS4YOU – Développer mon esprit critique':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_03_Esprit_critique.html',
+  'LS4YOU – Prendre la parole en public':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_04_Prendre_la_parole.html',
+  'LS4YOU – Apprendre à faire les bons choix':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_05_Faire_les_bons_choix.html',
+  'LS4YOU – Savoir dire non':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_06_Savoir_dire_non.html',
+  'LS4YOU – Apprendre à demander de l’aide':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_07_Demander_de_l_aide.html',
+  'LS4YOU – Gérer mon stress et mes émotions':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_08_Stress_et_emotions.html',
+  'LS4YOU – Valoriser mes expériences de vie':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_09_Valoriser_mes_experiences.html',
+  'LS4YOU – Coopérer et travailler avec les autres':'https://mlpb-tools.github.io/ml-skills/LS4YOU_Module_10_Cooperer.html'
+};
+const ATELIER_DETAILS = {
+  'DECLIC 7- Pitch vitaminé': { objectif:'Action AFPA' },
+  'DECLIC 4 Découvrir les compétences de base attendues par les employeurs': { objectif:'Atelier AFPA' },
+  'Mes compétences pro': { objectif:'Atelier ERIP' },
+  'Les étapes de mon projet professionnel': { objectif:'Atelier ERIP' },
+  'DECLIC 1 Découvrir et essayer son métier de demain grandeur nature': { objectif:'Atelier AFPA' },
+  'En route vers ma formation': { objectif:'Service Formation' },
+  'DECLIC 7 Pitch vitaminé': { objectif:'Atelier AFPA' },
+  'DECLIC 6 – Code de la route': { objectif:'Atelier AFPA' },
+  'EVA': { objectif:'Repérage illettrisme et évaluation compétences de base' },
+  'Activités physiques MUGITU': { objectif:'Les balades à Colette' },
+  'Santé, prévention et promotion de la santé': { objectif:'UFOLEP / Stéphanie psychologue / CPAM' },
+  'Les petits déj': { objectif:'Créer du lien, échanger' },
+  'Santé Emploi: Quelles possibilités?': { objectif:'Atelier ERIP' },
+  'Bilan de santé': { objectif:'CPAM' },
+  'Confiance en soi': { objectif:'Impuls’Emploi' },
+  'Plateforme HEROOES': { objectif:'Découvrir le bénévolat et les structures accueillantes' },
+  'Purple Town': { objectif:'Prévention Addictions' },
+  'Visites d’entreprises': {
+    sessions:[
+      {structureType:'Entreprise', structureName:'LAUAK', sector:'AERONAUTIQUE', organizerService:'ERIP', date:'16/10/2026', horaire:'10H 12H', lieu:'ANGLET', inscription:'', notes:'', participants:[]}
+    ]
+  },
+  'LS4YOU – Apprendre à m’organiser et gérer mes démarches': {
+    objectif:'Classer les démarches, choisir une priorité et préparer un rendez-vous ou une action.',
+    contenu:[
+      'Public : jeune prêt à reprendre la main sur ses démarches et à gagner en clarté pour choisir par où commencer',
+      '45 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – La carte rapide de mes démarches',
+      'Phase 2 – Une priorité, découpée en petites étapes',
+      'Phase 3 – Mon kit anti-oubli'
+    ]
+  },
+  'LS4YOU – Développer ma confiance en moi': {
+    objectif:'Identifier trois réussites, trois qualités et une phrase de valorisation.',
+    contenu:[
+      'Public : jeune qui a déjà des réussites et des ressources à son actif, prêtes à être reconnues et nommées',
+      '45–60 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – Ma petite victoire',
+      'Phase 2 – Trois réussites, trois qualités, deux regards',
+      'Phase 3 – Ma phrase de confiance et mon défi'
+    ]
+  },
+  'LS4YOU – Développer mon esprit critique': {
+    objectif:'Distinguer fait / opinion / rumeur et vérifier avant de décider.',
+    contenu:[
+      'Public : jeune influencé par réseaux sociaux, avis de proches, offres floues ou informations non vérifiées',
+      '45–60 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – L’info que j’apporte',
+      'Phase 2 – Sous la surface : fait, opinion ou rumeur ?',
+      'Phase 3 – Les 4 questions avant de décider'
+    ]
+  },
+  'LS4YOU – Prendre la parole en public': {
+    objectif:'Préparer un message court et recevoir un feedback positif.',
+    contenu:[
+      'Public : jeune qui souhaite gagner en aisance à l’oral et trouver ses mots, pas à pas et à son rythme',
+      '45–60 min · binômes / petit groupe · présentiel/distanciel',
+      'Phase 1 – Mon échelle de confort',
+      'Phase 2 – Mon message court',
+      'Phase 3 – Entraînement en binôme et feedback'
+    ]
+  },
+  'LS4YOU – Apprendre à faire les bons choix': {
+    objectif:'Clarifier options, critères, conséquences et action test.',
+    contenu:[
+      'Public : jeune face à un choix à construire, qui souhaite décider par lui-même en s’appuyant sur ses propres critères',
+      '60 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – Formuler ma décision',
+      'Phase 2 – Mes critères et les conséquences',
+      'Phase 3 – Mon action test'
+    ]
+  },
+  'LS4YOU – Savoir dire non': {
+    objectif:'Identifier une limite, une phrase de refus et une personne ressource.',
+    contenu:[
+      'Public : jeune qui souhaite poser ses limites, se protéger face aux sollicitations et affirmer ses choix',
+      '45–60 min · petit groupe · présentiel',
+      'Phase 1 – Scénarios fictifs : dirais-tu non ?',
+      'Phase 2 – Mes signaux et ma limite',
+      'Phase 3 – Mes deux phrases'
+    ]
+  },
+  'LS4YOU – Apprendre à demander de l’aide': {
+    objectif:'Identifier la bonne personne, préparer la demande et passer à l’action.',
+    contenu:[
+      'Public : jeune qui gagne à identifier ses appuis, à choisir vers qui se tourner et à formuler sa demande',
+      '30–45 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – Nommer mon besoin',
+      'Phase 2 – Trouver la bonne porte',
+      'Phase 3 – Préparer ma demande'
+    ]
+  },
+  'LS4YOU – Gérer mon stress et mes émotions': {
+    objectif:'Identifier émotion, déclencheur, stratégie et appui.',
+    contenu:[
+      'Public : jeune qui prépare une étape importante et souhaite s’appuyer sur ses ressources pour aborder stress et émotions',
+      '30–60 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – Nommer sans raconter',
+      'Phase 2 – Relier émotion, déclencheur et besoin',
+      'Phase 3 – Ma stratégie simple'
+    ]
+  },
+  'LS4YOU – Valoriser mes expériences de vie': {
+    objectif:'Formaliser une expérience, trois compétences et une phrase transférable.',
+    contenu:[
+      'Public : jeune qui ne voit pas la valeur de son parcours ou de ses expériences hors emploi',
+      '45–60 min · individuel ou petit groupe · présentiel/distanciel',
+      'Phase 1 – Mon expérience de vie',
+      'Phase 2 – Trois compétences prouvées',
+      'Phase 3 – Ma phrase transférable'
+    ]
+  },
+  'LS4YOU – Coopérer et travailler avec les autres': {
+    objectif:'Identifier son rôle, une force collective et une stratégie en cas de désaccord.',
+    contenu:[
+      'Public : jeune qui doit participer à un collectif, une formation, un chantier, un projet ou une équipe',
+      '60 min · petit groupe (individuel possible) · présentiel',
+      'Phase 1 – Ma situation de groupe',
+      'Phase 2 – Mon rôle et ce que je renvoie',
+      'Phase 3 – Ma stratégie de désaccord'
+    ]
+  }
+};
 defaultData.blocks = defaultData.blocks.map(block => {
   const mapping = CLASSIFIED_WORKSHOPS[block.id] || {};
   const categories = block.ateliers.map(category => {
@@ -1345,7 +1539,17 @@ defaultData.blocks = defaultData.blocks.map(block => {
       titreJeune: category.titreJeune || category.title,
       titreConseiller: category.titreConseiller || category.title,
       objectif: category.objectif || '',
-      ateliers: names.map(title => ({title, objectif:'', contenu:[], territories:[...ALL_TERRITORIES], sessions:[]}))
+      ateliers: names.map(title => {
+        const details = ATELIER_DETAILS[title] || {};
+        return {
+          title,
+          objectif: details.objectif || '',
+          contenu: details.contenu || [],
+          territories:[...ALL_TERRITORIES],
+          sessions: details.sessions ? JSON.parse(JSON.stringify(details.sessions)) : [],
+          lien: ATELIER_LINKS[title] || ''
+        };
+      })
     };
   });
   const {ateliers, ...blockInfo} = block;
@@ -1370,10 +1574,41 @@ function loadData(){
       const data=JSON.parse(saved);
       normalizeMobilityCategories(data);
       normalizeEmploymentCategories(data);
+      if(!Array.isArray(data.log)) data.log = [];
       return data;
     }catch(e){}
   }
-  return JSON.parse(JSON.stringify(defaultData));
+  const fresh = JSON.parse(JSON.stringify(defaultData));
+  fresh.log = [];
+  return fresh;
+}
+
+function logChange(action, label){
+  if(!Array.isArray(appData.log)) appData.log = [];
+  appData.log.unshift({ts:new Date().toISOString(), action, label});
+  if(appData.log.length > 300) appData.log.length = 300;
+}
+
+function openLogModal(){
+  useStandardModal();
+  document.getElementById('modalTitle').textContent = 'Journal des modifications';
+  const entries = appData.log || [];
+  const rows = entries.length ? entries.map(e => `
+    <div class="log-row">
+      <span class="log-date">${escapeHtml(new Date(e.ts).toLocaleString('fr-FR'))}</span>
+      <span class="log-action log-action-${escAttr(e.action)}">${escapeHtml(e.action)}</span>
+      <span class="log-label">${escapeHtml(e.label)}</span>
+    </div>`).join('') : `<div class="empty-note">${icon('inbox','icon-svg-sm')} Aucune modification enregistrée pour le moment.</div>`;
+  document.getElementById('modalContent').innerHTML = `
+    <p class="small-note" style="margin-bottom:10px;">
+      Cet historique reste local à ce navigateur. Il ne modifie pas le fichier source du site : utilise « Exporter » pour transmettre tes changements et les faire intégrer dans la prochaine version publiée.
+    </p>
+    <div class="log-list">${rows}</div>
+    <div class="actions">
+      <button class="btn primary" type="button" onclick="exportData()">${icon('download','icon-svg-sm')} Exporter mes données</button>
+      <button class="btn" type="button" onclick="closeModal()">Fermer</button>
+    </div>`;
+  openModal();
 }
 
 function normalizeMobilityCategories(data){
@@ -1482,7 +1717,8 @@ const ICON_PATHS = {
   alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/>',
   check:'<path d="M20 6 9 17l-5-5"/>',
   download:'<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>',
-  inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>'
+  inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'
 };
 
 function icon(name, extraClass){
@@ -1673,6 +1909,7 @@ function renderAtelier(block, atelier, bi, ai){
         <button class="btn mini inscription" type="button" onclick="event.preventDefault(); event.stopPropagation(); openRegisterModal(${bi},${ai})">M’inscrire</button>
       </div>
       ${atelier.objectif ? `<p class="atelier-objective">${escapeHtml(atelier.objectif)}</p>` : ''}
+      ${atelier.lien ? `<div class="atelier-resource-link"><a class="btn mini primary" href="${escAttr(atelier.lien)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${icon('link','icon-svg-sm')} Ouvrir le module</a></div>` : ''}
       ${(atelier.contenu || []).length ? `<ul class="bullets">${atelier.contenu.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
       <fieldset class="atelier-territories for-conseiller">
         <legend class="atelier-territories-title">Territoires proposés</legend>
@@ -1827,6 +2064,7 @@ function openAtelierModal(bi, ci){
     <div class="modal-grid">
       <div class="full"><label>Intitulé de l’atelier</label><input id="mAtelierTitle" placeholder="Ex. Préparer ma candidature"><span class="field-help">Visible par les jeunes et les conseillers dans la liste des ateliers.</span></div>
       <div class="full"><label>Objectif</label><textarea id="mAtelierObjectif" placeholder="Objectif opérationnel"></textarea></div>
+      <div class="full"><label>Lien de la ressource (optionnel)</label><input id="mAtelierLien" type="url" placeholder="https://..."><span class="field-help">Si renseigné, un bouton « Ouvrir le module » apparaît sur la fiche.</span></div>
       <div class="full"><label>Actions proposées</label><textarea id="mAtelierContenu" placeholder="Une action par ligne"></textarea><span class="field-help">Une ligne = une action affichée en liste à puces.</span></div>
       ${renderTerritoryOptions(TERRITORIES.map(t=>t.id))}
     </div>
@@ -1857,6 +2095,7 @@ function confirmAddCategory(bi){
   if(!title){ showToast('Le nom de la sous-catégorie est obligatoire.','warning'); return; }
   appData.blocks[bi].categories.push({title,objectif:'',ateliers:[]});
   const ci=appData.blocks[bi].categories.length-1;
+  logChange('ajout', `Sous-catégorie « ${title} » (${appData.blocks[bi].title})`);
   saveData();
   render();
   openSubcategory(bi,ci);
@@ -1876,6 +2115,7 @@ function removeCategory(bi,ci){
     cancelAction:'closeModal()',
     onConfirm: () => {
       appData.blocks[bi].categories.splice(ci,1);
+      logChange('suppression', `Sous-catégorie « ${label} » (${appData.blocks[bi].title})${count ? ` — ${count} atelier${count>1?'s':''} perdu${count>1?'s':''}` : ''}`);
       closeModal();
       refreshAndReopen(bi,null);
       showToast(`Sous-catégorie « ${label} » supprimée.`,'success');
@@ -1893,11 +2133,13 @@ function confirmAddAtelier(bi, ci){
   category.ateliers.push({
     title,
     objectif:valueOf('mAtelierObjectif').trim(),
+    lien:valueOf('mAtelierLien').trim(),
     contenu:valueOf('mAtelierContenu').split(/\n+/).map(s=>s.trim()).filter(Boolean),
     territories,
     sessions:[]
   });
   const flatIndex = getAtelierEntries(block).findIndex(entry => entry.ci === ci && entry.ai === category.ateliers.length-1);
+  logChange('ajout', `Atelier « ${title} » (${displayTitle(category)})`);
   saveData();
   render();
   openSubcategory(bi,ci);
@@ -1913,6 +2155,7 @@ function editAtelier(bi, ai){
     <div class="modal-grid">
       <div class="full"><label>Intitulé de l’atelier</label><input id="mAtelierTitle" value="${escAttr(a.title||'')}"></div>
       <div class="full"><label>Objectif</label><textarea id="mAtelierObjectif">${escapeHtml(a.objectif||'')}</textarea></div>
+      <div class="full"><label>Lien de la ressource (optionnel)</label><input id="mAtelierLien" type="url" value="${escAttr(a.lien||'')}" placeholder="https://..."><span class="field-help">Si renseigné, un bouton « Ouvrir le module » apparaît sur la fiche.</span></div>
       <div class="full"><label>Actions proposées</label><textarea id="mAtelierContenu">${escapeHtml((a.contenu||[]).join('\n'))}</textarea></div>
       ${renderTerritoryOptions(getAtelierTerritories(a))}
     </div>
@@ -1933,8 +2176,10 @@ function confirmEditAtelier(bi, ai){
   if(!territories.length){ showToast('Sélectionne au moins un territoire.','warning'); return; }
   a.title = title;
   a.objectif = valueOf('mAtelierObjectif').trim();
+  a.lien = valueOf('mAtelierLien').trim();
   a.contenu = valueOf('mAtelierContenu').split(/\n+/).map(s=>s.trim()).filter(Boolean);
   a.territories = territories;
+  logChange('modification', `Atelier « ${title} »`);
   saveData();
   render();
   openSubcategory(bi,entry.ci);
@@ -1968,6 +2213,7 @@ function confirmRemoveAtelier(bi,ai){
   if(!entry) return closeModal();
   const title=entry.atelier.title;
   appData.blocks[bi].categories[entry.ci].ateliers.splice(entry.ai,1);
+  logChange('suppression', `Atelier « ${title} » (${appData.blocks[bi].title})`);
   saveData();
   render();
   openSubcategory(bi,entry.ci);
@@ -2024,6 +2270,7 @@ function confirmAddSession(bi, ai){
     notes:valueOf('mSessionNotes').trim(),
     participants:[]
   });
+  logChange('ajout', `${visitMode ? 'Visite' : 'Session'} pour « ${atelier.title} »`);
   refreshAndOpenAtelier(bi,ai);
   showToast(visitMode ? 'Visite créée.' : 'Session créée.','success');
 }
@@ -2048,6 +2295,7 @@ function removeSession(bi, ai, si){
     cancelAction:`refreshAndOpenAtelier(${bi},${ai})`,
     onConfirm: () => {
       atelier.sessions.splice(si,1);
+      logChange('suppression', `Session de « ${atelier.title} »${participantsCount ? ` — ${participantsCount} participant${participantsCount>1?'s':''} perdu${participantsCount>1?'s':''}` : ''}`);
       refreshAndOpenAtelier(bi,ai);
       showToast('Session supprimée.','success');
     }
@@ -2260,14 +2508,208 @@ function toggleAll(open){
   document.querySelectorAll('.atelier').forEach(at=>{ at.open = open; });
 }
 
+function toggleAdvancedTools(){
+  const panel = document.getElementById('advancedTools');
+  const btn = document.getElementById('advancedToggleBtn');
+  const willShow = panel.hasAttribute('hidden');
+  if(willShow){ panel.removeAttribute('hidden'); applyAdminVisibility(); } else panel.setAttribute('hidden','');
+  btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+}
+
+/* ====== Enregistrement partagé (Google Sheets via Apps Script) ======
+   Pensé pour être invisible techniquement : un seul bouton « Enregistrer »,
+   aucune configuration côté utilisateur. L’URL ci-dessous est réglée une
+   seule fois par la personne qui administre l’outil. Tant qu’elle est vide,
+   le bouton se contente d’un enregistrement local (comportement précédent),
+   sans erreur ni blocage. */
+const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwLEChlsqujikD5TID4jf6YZtvbPU2sOCM5J_fzAjFIkcRaTId_iMipjreT-GXg3vK11w/exec';
+
+function setSaveStatus(text){
+  const el = document.getElementById('saveStatus');
+  if(el) el.textContent = text;
+}
+
+async function saveToSharedSheet(){
+  saveData();
+  if(!GOOGLE_SHEET_ENDPOINT){
+    showToast('Enregistré sur cet appareil.','success');
+    return;
+  }
+  setSaveStatus('Enregistrement…');
+  try{
+    const res = await fetch(GOOGLE_SHEET_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(appData)
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    logChange('sauvegarde', 'Données enregistrées et partagées avec l’équipe');
+    saveData();
+    setSaveStatus('Enregistré à ' + new Date().toLocaleTimeString('fr-FR').slice(0,5));
+    showToast('Enregistré — visible par toute l’équipe.','success');
+  }catch(err){
+    setSaveStatus('');
+    showToast('Connexion impossible : tes modifications restent enregistrées sur cet appareil.','danger');
+  }
+}
+
+async function loadSharedData(){
+  if(!GOOGLE_SHEET_ENDPOINT) return;
+  try{
+    const res = await fetch(GOOGLE_SHEET_ENDPOINT);
+    if(!res.ok) return;
+    const text = (await res.text()).trim();
+    if(!text || text === '{}') return;
+    const data = JSON.parse(text);
+    if(!data.blocks) return;
+    if(!Array.isArray(data.log)) data.log = [];
+    normalizeMobilityCategories(data);
+    normalizeEmploymentCategories(data);
+    appData = data;
+    saveData();
+    refresh();
+    setSaveStatus('À jour');
+  }catch(err){
+    /* échec silencieux : on garde la version locale, pas d’interruption pour l’utilisateur */
+  }
+}
+
 function exportData(){
   const blob = new Blob([JSON.stringify(appData,null,2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'offre_collective_mlpb.json';
+  const stamp = new Date().toISOString().slice(0,10);
+  a.download = `offre_collective_mlpb_${stamp}.json`;
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
+}
+
+/* ====== Publication directe vers GitHub (Contents API) ======
+   Le jeton d'accès personnel n'est JAMAIS inclus dans appData, donc jamais
+   dans les exports JSON ni dans le journal : il vit dans une clé de
+   localStorage séparée, propre à ce navigateur. */
+const GITHUB_CONFIG_KEY = 'mlpb_offre_collective_github_config';
+const GITHUB_TOKEN_KEY = 'mlpb_offre_collective_github_token';
+
+function getGithubConfig(){
+  try{ return JSON.parse(localStorage.getItem(GITHUB_CONFIG_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function getGithubToken(){
+  return localStorage.getItem(GITHUB_TOKEN_KEY) || '';
+}
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function openGithubSettingsModal(afterSave){
+  if(!isAdminUser()){ showToast('Fonction réservée à l’administrateur de l’outil.','warning'); return; }
+  const cfg = getGithubConfig();
+  const hasToken = !!getGithubToken();
+  useStandardModal();
+  document.getElementById('modalTitle').textContent = 'Paramètres GitHub';
+  document.getElementById('modalContent').innerHTML = `
+    <p class="small-note" style="margin-bottom:10px;">
+      Ces informations permettent au bouton « Publier sur GitHub » d’écrire directement un fichier de données dans ton dépôt, via l’API GitHub. Elles restent enregistrées uniquement dans ce navigateur — jamais dans les exports JSON ni dans le journal.
+    </p>
+    <div class="modal-grid">
+      <div><label for="ghOwner">Compte / organisation</label><input id="ghOwner" value="${escAttr(cfg.owner||'')}" placeholder="Ex. mlpb-tools"></div>
+      <div><label for="ghRepo">Dépôt</label><input id="ghRepo" value="${escAttr(cfg.repo||'')}" placeholder="Ex. offre-collective"></div>
+      <div><label for="ghBranch">Branche</label><input id="ghBranch" value="${escAttr(cfg.branch||'main')}" placeholder="main"></div>
+      <div class="full"><label for="ghPath">Chemin du fichier de données</label><input id="ghPath" value="${escAttr(cfg.path||'data/offre-collective-data.json')}" placeholder="data/offre-collective-data.json"></div>
+      <div class="full">
+        <label for="ghToken">Jeton d’accès personnel GitHub</label>
+        <input id="ghToken" type="password" placeholder="${hasToken ? 'Déjà enregistré — laisse vide pour le conserver' : 'ghp_… ou github_pat_…'}">
+        <span class="field-help">Crée un jeton à granularité fine limité à ce seul dépôt, avec la permission « Contents : Read and write ». Ne le partage jamais.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" type="button" onclick="saveGithubSettings(${afterSave ? 'true' : 'false'})">${icon('check','icon-svg-sm')} Enregistrer</button>
+      ${hasToken ? `<button class="btn danger-outline" type="button" onclick="forgetGithubToken()">${icon('trash','icon-svg-sm')} Oublier le jeton</button>` : ''}
+      <button class="btn" type="button" onclick="closeModal()">Annuler</button>
+    </div>`;
+  openModal();
+  window.__ghAfterSave = afterSave || null;
+}
+
+function saveGithubSettings(shouldPublishAfter){
+  const owner = valueOf('ghOwner').trim();
+  const repo = valueOf('ghRepo').trim();
+  const branch = valueOf('ghBranch').trim() || 'main';
+  const path = valueOf('ghPath').trim();
+  if(!owner || !repo || !path){ showToast('Compte, dépôt et chemin du fichier sont obligatoires.','warning'); return; }
+  localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify({owner, repo, branch, path}));
+  const tokenValue = valueOf('ghToken').trim();
+  if(tokenValue) localStorage.setItem(GITHUB_TOKEN_KEY, tokenValue);
+  closeModal();
+  showToast('Paramètres GitHub enregistrés.','success');
+  if(shouldPublishAfter && window.__ghAfterSave){ window.__ghAfterSave(); }
+  window.__ghAfterSave = null;
+}
+
+function forgetGithubToken(){
+  localStorage.removeItem(GITHUB_TOKEN_KEY);
+  showToast('Jeton GitHub oublié.','success');
+  openGithubSettingsModal();
+}
+
+async function publishToGithub(){
+  if(!isAdminUser()){ showToast('Fonction réservée à l’administrateur de l’outil.','warning'); return; }
+  const cfg = getGithubConfig();
+  const token = getGithubToken();
+  if(!cfg.owner || !cfg.repo || !cfg.path || !token){
+    openGithubSettingsModal(() => publishToGithub());
+    return;
+  }
+  const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${cfg.path.split('/').map(encodeURIComponent).join('/')}`;
+  const branch = cfg.branch || 'main';
+  showToast('Publication en cours…','warning');
+  try{
+    let sha;
+    const getRes = await fetch(`${apiUrl}?ref=${encodeURIComponent(branch)}`, {
+      headers:{ 'Authorization':`Bearer ${token}`, 'Accept':'application/vnd.github+json' }
+    });
+    if(getRes.status === 200){
+      const info = await getRes.json();
+      sha = info.sha;
+    } else if(getRes.status !== 404){
+      throw new Error(`Lecture impossible (HTTP ${getRes.status})`);
+    }
+
+    const stamp = new Date().toLocaleString('fr-FR');
+    const body = {
+      message:`Mise à jour des données — ${stamp}`,
+      content:utf8ToBase64(JSON.stringify(appData, null, 2)),
+      branch
+    };
+    if(sha) body.sha = sha;
+
+    const putRes = await fetch(apiUrl, {
+      method:'PUT',
+      headers:{ 'Authorization':`Bearer ${token}`, 'Accept':'application/vnd.github+json', 'Content-Type':'application/json' },
+      body:JSON.stringify(body)
+    });
+
+    if(putRes.status === 200 || putRes.status === 201){
+      logChange('publication', `Fichier « ${cfg.path} » publié sur ${cfg.owner}/${cfg.repo}@${branch}`);
+      saveData();
+      showToast('Données publiées sur GitHub.','success');
+    } else if(putRes.status === 401){
+      showToast('Jeton invalide ou expiré — vérifie les paramètres GitHub.','danger');
+    } else if(putRes.status === 403){
+      showToast('Droits insuffisants sur ce dépôt pour ce jeton.','danger');
+    } else if(putRes.status === 404){
+      showToast('Dépôt introuvable — vérifie compte/dépôt dans les paramètres.','danger');
+    } else if(putRes.status === 409){
+      showToast('Conflit : quelqu’un a modifié le fichier entre-temps. Réessaie.','danger');
+    } else {
+      const info = await putRes.json().catch(() => ({}));
+      showToast(`Échec de la publication (HTTP ${putRes.status})${info.message ? ' — ' + info.message : ''}`,'danger');
+    }
+  }catch(err){
+    showToast('Publication impossible : connexion ou configuration GitHub à vérifier.','danger');
+  }
 }
 
 function importData(event){
@@ -2278,7 +2720,10 @@ function importData(event){
     try{
       const data = JSON.parse(e.target.result);
       if(!data.blocks) throw new Error('Format invalide');
+      if(!Array.isArray(data.log)) data.log = [];
       appData = data;
+      logChange('import', `Fichier « ${file.name} » importé`);
+      saveData();
       refresh();
       showToast('Données importées avec succès.','success');
     }catch(err){ showToast('Fichier JSON invalide.','danger'); }
@@ -2295,7 +2740,11 @@ function resetData(){
     confirmLabel:'Réinitialiser',
     cancelAction:'closeModal()',
     onConfirm: () => {
+      const previousLog = appData.log || [];
       appData = JSON.parse(JSON.stringify(defaultData));
+      appData.log = previousLog;
+      logChange('réinitialisation', 'Retour à la version de départ');
+      saveData();
       refresh();
       closeModal();
       showToast('Outil réinitialisé.','success');
@@ -2358,6 +2807,8 @@ function refreshAndOpenAtelier(bi,ai){
 
 render();
 setMode('jeune');
+loadSharedData();
+applyAdminVisibility();
 </script>
 
 
